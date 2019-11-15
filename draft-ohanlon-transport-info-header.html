@@ -1,0 +1,602 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head profile="http://www.w3.org/2006/03/hcard http://dublincore.org/documents/2008/08/04/dc-html/">
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+
+  <title>The Transport-Info Response Header</title>
+
+  
+<style type="text/css">/*<![CDATA[*/
+
+body {
+  font: 16px "Helvetica Neue","Open Sans",Helvetica,Calibri,sans-serif;
+  color: #333;
+  font-size-adjust: 0.5;
+  line-height: 24px;
+  margin: 75px auto;
+  max-width: 624px;
+  padding: 0 5px;
+}
+
+.title, .filename, h1, h2, h3, h4, h5 {
+  font: 16px "Roboto Condensed","Helvetica Neue","Open Sans",Helvetica,Calibri,sans-serif;
+  font-size-adjust: 0.5;
+  font-weight: bold;
+  color: #333;
+  line-height: 100%;
+  margin: 1.2em 0 0.3em;
+}
+.title, #rfc\.title h1 { font-size: 32px; }
+h1, section h1, h2, section h2, section h3, nav h2 { font-size: 20px; }
+h3, section h4, h4, section h5 { font-size: 16px; }
+h1 a[href], h2 a[href], h3 a[href], h4 a[href] {
+  color: #333;
+}
+
+table {
+  margin-left: 0em;
+  border-collapse: collapse;
+}
+th {
+  text-align: left;
+  border-bottom: 2px solid #ddd;
+}
+td {
+  border-top: 1px solid #ddd;
+  vertical-align: top;
+}
+tr:nth-child(2n+1) > td,
+tr:nth-child(2n+1) > th {
+  background-color: #f9f9f9;
+}
+td.reference {
+  max-width: 200px;
+  border-top: none;
+  padding-right: 1em;
+}
+.right {
+  text-align: right;
+}
+
+
+table.header, table#rfc\.headerblock {
+  width: 100%;
+}
+table.header td, table#rfc\.headerblock td {
+  border: none;
+  background-color: transparent;
+  color: black;
+  padding: 0;
+}
+.filename {
+  display: block;
+  color: rgb(119, 119, 119);
+  font-size: 20px;
+  font-weight: normal;
+  line-height: 100%;
+  margin: 10px 0 32px;
+}
+#rfc\.abstract+p, #rfc\.abstract+p code, #rfc\.abstract+p samp, #rfc\.abstract+p tt {
+  font-size: 20px;
+  line-height: 28px;
+}
+
+samp, tt, code, pre, span.tt {
+  font-size: 13.5px;
+  font-family: Consolas, monospace;
+  font-size-adjust: none;
+}
+pre {
+  background-color: #eee;
+  border: 1px solid #ddd;
+  overflow-x: auto;
+  padding: 5px;
+  margin: 5px;
+}
+.figure, caption {
+  font-style: italic;
+  margin: 0 1.5em;
+  text-align: left;
+}
+
+address {
+  margin: 16px 2px;
+  line-height: 20px;
+}
+.vcard {
+  font-style: normal;
+}
+.vcardline {
+  display: block;
+}
+.vcardline .fn, address b {
+  font-weight: normal;
+}
+.vcardline .hidden {
+  display: none;
+}
+
+dl {
+  margin-left: 1em;
+}
+dl.dl-horizontal: {
+  margin-left: 0;
+}
+dl > dt {
+  float: left;
+  margin-right: 1em;
+}
+dl.nohang > dt {
+  float: none;
+}
+dl > dd {
+  margin-bottom: .5em;
+}
+dl.compact > dd {
+  margin-bottom: 0em;
+}
+dl > dd > dl {
+  margin-top: 0.5em;
+  margin-bottom: 0em;
+}
+ul.empty {
+  list-style-type: none;
+}
+ul.empty li {
+  margin-top: .5em;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid #eee;
+}
+hr.noprint {
+  display: none;
+}
+
+a {
+  text-decoration: none;
+}
+a[href] {
+  color: #2a6496;
+}
+a[href]:hover {
+  background-color: #eee;
+}
+
+p, ol, ul, li {
+  padding: 0;
+}
+p {
+  margin: 0.5em 0;
+}
+ol, ul {
+  margin: 0.2em 0 0.2em 2em;
+}
+li {
+  margin: 0.2em 0;
+}
+address {
+  font-style: normal;
+}
+
+ul.toc ul {
+  margin: 0 0 0 2em;
+}
+ul.toc li {
+  list-style: none;
+  margin: 0;
+}
+
+@media screen and (min-width: 924px) {
+  body {
+    padding-right: 350px;
+  }
+  body>ul.toc, body>#rfc\.toc {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    right: calc(50vw - 500px);
+    width: 300px;
+    z-index: 1;
+    overflow: auto;
+    overscroll-behavior: contain;
+  }
+  body>#rfc\.toc {
+    top: 55px;
+  }
+  body>ul.toc {
+    top: 100px;
+  }
+
+  ul.toc {
+    margin: 0 0 0 4px;
+    font-size: 12px;
+    line-height: 20px;
+  }
+  ul.toc ul {
+    margin-left: 1.2em;
+  }
+}
+
+.github-fork-ribbon-wrapper {
+  display: none;
+}
+@media screen and (min-width: 800px) {
+  /* "Fork me on GitHub" CSS ribbon based on
+   * https://github.com/simonwhitaker/github-fork-ribbon-css
+   */
+  .github-fork-ribbon {
+    position: absolute;
+    padding: 2px 0;
+    background-color: #a00;
+    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.15));
+    box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.5);
+    font: 700 12px "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+    pointer-events: auto;
+
+    top: 38px;
+    right: -45px;
+
+    transform: rotate(45deg);
+  }
+
+  .github-fork-ribbon a[href],
+  .github-fork-ribbon a[href]:hover {
+    color: #fff;
+    background-color: transparent;
+    text-decoration: none;
+    text-shadow: 0 -1px rgba(0, 0, 0, 0.5);
+    text-align: center;
+
+    width: 190px;
+    line-height: 18px;
+
+    display: inline-block;
+    padding: 2px 0;
+
+    border: 1.5px dotted #fff;
+    border-color: rgba(255, 255, 255, 0.6);
+  }
+
+  .github-fork-ribbon-wrapper {
+    display: block;
+    width: 130px;
+    height: 130px;
+    position: absolute;
+    overflow: hidden;
+    top: 0; right: 0;
+    z-index: 2;
+    pointer-events: none;
+  }
+}
+@media screen and (min-width: 1000px) {
+  .github-fork-ribbon-wrapper {
+    position: fixed;
+  }
+/*]]>*/</style>
+<meta name="viewport" content="initial-scale=1.0">
+
+
+  <link href="#rfc.toc" rel="Contents">
+<link href="#rfc.section.1" rel="Chapter" title="1 Introduction">
+<link href="#rfc.section.1.1" rel="Chapter" title="1.1 Motivation">
+<link href="#rfc.section.1.2" rel="Chapter" title="1.2 Notational Conventions">
+<link href="#rfc.section.2" rel="Chapter" title="2 The Transport-Info Response Header">
+<link href="#rfc.section.2.1" rel="Chapter" title="2.1 Utilisation of Transport-Info header metrics">
+<link href="#rfc.section.3" rel="Chapter" title="3 Server side behaviour">
+<link href="#rfc.section.4" rel="Chapter" title="4 Client side proxy considerations">
+<link href="#rfc.section.5" rel="Chapter" title="5 IANA Considerations">
+<link href="#rfc.section.6" rel="Chapter" title="6 Security Considerations">
+<link href="#rfc.references" rel="Chapter" title="7 References">
+<link href="#rfc.references.1" rel="Chapter" title="7.1 Normative References">
+<link href="#rfc.references.2" rel="Chapter" title="7.2 Informative References">
+<link href="#rfc.authors" rel="Chapter">
+
+
+  <meta name="generator" content="xml2rfc version 2.26.0 - https://tools.ietf.org/tools/xml2rfc" />
+  <link rel="schema.dct" href="http://purl.org/dc/terms/" />
+
+  <meta name="dct.creator" content="O'Hanlon, P. and J. Gruessing" />
+  <meta name="dct.identifier" content="urn:ietf:id:draft-ohanlon-transport-info-header-latest" />
+  <meta name="dct.issued" scheme="ISO8601" content="2019-15" />
+  <meta name="dct.abstract" content="The Transport-Info header provides a mechanism to inform a client of the last-mile server&#8217;s view of the network transport related information such as current delivery rate and round-trip time. This information has a wide range of uses such as client monitoring and diagnostics, or allowing a client to adapt to current network conditions." />
+  <meta name="description" content="The Transport-Info header provides a mechanism to inform a client of the last-mile server&#8217;s view of the network transport related information such as current delivery rate and round-trip time. This information has a wide range of uses such as client monitoring and diagnostics, or allowing a client to adapt to current network conditions." />
+
+</head>
+
+<body>
+
+  <table class="header">
+    <tbody>
+    
+    	<tr>
+<td class="left">HTTP</td>
+<td class="right">P. O'Hanlon</td>
+</tr>
+<tr>
+<td class="left">Internet-Draft</td>
+<td class="right">J. Gruessing</td>
+</tr>
+<tr>
+<td class="left">Intended status: Standards Track</td>
+<td class="right">British Broadcasting Corporation</td>
+</tr>
+<tr>
+<td class="left">Expires: May 18, 2020</td>
+<td class="right">November 15, 2019</td>
+</tr>
+
+    	
+    </tbody>
+  </table>
+
+  <p class="title">The Transport-Info Response Header<br />
+  <span class="filename">draft-ohanlon-transport-info-header-latest</span></p>
+  
+  <h1 id="rfc.abstract"><a href="#rfc.abstract">Abstract</a></h1>
+<p>The Transport-Info header provides a mechanism to inform a client of the last-mile server&#8217;s view of the network transport related information such as current delivery rate and round-trip time. This information has a wide range of uses such as client monitoring and diagnostics, or allowing a client to adapt to current network conditions.</p>
+<h1><a>Note to Readers</a></h1>
+<p>Source for this draft and an issue tracker can be found at <a href="https://github.com/bbc/draft-ohanlon-transport-info-header">https://github.com/bbc/draft-ohanlon-transport-info-header</a>.</p>
+<h1 id="rfc.status"><a href="#rfc.status">Status of This Memo</a></h1>
+<p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
+<p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at https://datatracker.ietf.org/drafts/current/.</p>
+<p>Internet-Drafts are draft documents valid for a maximum of six months and may be updated, replaced, or obsoleted by other documents at any time.  It is inappropriate to use Internet-Drafts as reference material or to cite them other than as "work in progress."</p>
+<p>This Internet-Draft will expire on May 18, 2020.</p>
+<h1 id="rfc.copyrightnotice"><a href="#rfc.copyrightnotice">Copyright Notice</a></h1>
+<p>Copyright (c) 2019 IETF Trust and the persons identified as the document authors.  All rights reserved.</p>
+<p>This document is subject to BCP 78 and the IETF Trust's Legal Provisions Relating to IETF Documents (https://trustee.ietf.org/license-info) in effect on the date of publication of this document.  Please review these documents carefully, as they describe your rights and restrictions with respect to this document.  Code Components extracted from this document must include Simplified BSD License text as described in Section 4.e of the Trust Legal Provisions and are provided without warranty as described in the Simplified BSD License.</p>
+
+  
+  <hr class="noprint" />
+  <h1 class="np" id="rfc.toc"><a href="#rfc.toc">Table of Contents</a></h1>
+  <ul class="toc">
+
+  	<li>1.   <a href="#rfc.section.1">Introduction</a>
+</li>
+<ul><li>1.1.   <a href="#rfc.section.1.1">Motivation</a>
+</li>
+<li>1.2.   <a href="#rfc.section.1.2">Notational Conventions</a>
+</li>
+</ul><li>2.   <a href="#rfc.section.2">The Transport-Info Response Header</a>
+</li>
+<ul><li>2.1.   <a href="#rfc.section.2.1">Utilisation of Transport-Info header metrics</a>
+</li>
+</ul><li>3.   <a href="#rfc.section.3">Server side behaviour</a>
+</li>
+<li>4.   <a href="#rfc.section.4">Client side proxy considerations</a>
+</li>
+<li>5.   <a href="#rfc.section.5">IANA Considerations</a>
+</li>
+<li>6.   <a href="#rfc.section.6">Security Considerations</a>
+</li>
+<li>7.   <a href="#rfc.references">References</a>
+</li>
+<ul><li>7.1.   <a href="#rfc.references.1">Normative References</a>
+</li>
+<li>7.2.   <a href="#rfc.references.2">Informative References</a>
+</li>
+</ul><li><a href="#rfc.authors">Authors' Addresses</a>
+</li>
+
+
+  </ul>
+
+  <h1 id="rfc.section.1">
+<a href="#rfc.section.1">1.</a> <a href="#introduction" id="introduction">Introduction</a>
+</h1>
+<p id="rfc.section.1.p.1">The Transport-Info header provides for relaying of transport protocol related information from a last-mile edge server entity to a client with the aim of informing the client of the server&#8217;s view on the transport state. The state of a connection is dependent upon information based upon packet exchanges during the transport processes. Firstly, there is information that is common to both client and server, such as the calculated round-trip time (RTT), although it may be measured using different packets at each end. Secondly, there is state information that exists only at each endpoint, such as the size of the congestion, and receive windows. Thus certain transport state information is only available at the server which can be useful to the client, for example, to calculate the current transport rate. This information may then be used to better inform a client of the state of the network path and make appropriate adaptations.</p>
+<p id="rfc.section.1.p.2">The information can also be utilised by a client to provide for application level client oriented metric logging to back-end systems for monitoring and analysis purposes.  Such data could be utilised in a manner not unlike that proposed in <a href="#RFC4898" class="xref">[RFC4898]</a>.</p>
+<p id="rfc.section.1.p.3">This approach is directly applicable to TCP but also can be utilised with other related transport protocols, such as QUIC <a href="#I-D.ietf-quic-transport" class="xref">[I-D.ietf-quic-transport]</a>.</p>
+<h1 id="rfc.section.1.1">
+<a href="#rfc.section.1.1">1.1.</a> <a href="#motivation" id="motivation">Motivation</a>
+</h1>
+<p id="rfc.section.1.1.p.1">This work is motivated in part by the fact that even in modern web browsers web applications are not currently able to obtain such low level information about their connections. Additionally some information is only available at the server, such as the size of the server congestion window. As a result clients often resort to application level measurements, to infer such things as the current delivery rate, but these are not always indicative of the performance of the transport layer.</p>
+<p id="rfc.section.1.1.p.2">There exist W3C specifications such as the Network Information API <a href="#network-info-api" class="xref">[network-info-api]</a>, which contains an attribute named &#8220;downlink&#8221; that purports to provide measurement of effective bandwidth &#8220;across recently active connections&#8221;. However, in practice the downlink measurement appears to be a very rough estimate which is of little use for informing an application of dynamic network conditions. Furthermore, it currently has limited browser support.</p>
+<h1 id="rfc.section.1.2">
+<a href="#rfc.section.1.2">1.2.</a> <a href="#notational-conventions" id="notational-conventions">Notational Conventions</a>
+</h1>
+<p id="rfc.section.1.2.p.1">The key words &#8220;MUST&#8221;, &#8220;MUST NOT&#8221;, &#8220;REQUIRED&#8221;, &#8220;SHALL&#8221;, &#8220;SHALL NOT&#8221;, &#8220;SHOULD&#8221;, &#8220;SHOULD NOT&#8221;, &#8220;RECOMMENDED&#8221;, &#8220;NOT RECOMMENDED&#8221;, &#8220;MAY&#8221;, and &#8220;OPTIONAL&#8221; in this document are to be interpreted as described in BCP 14 <a href="#RFC2119" class="xref">[RFC2119]</a> <a href="#RFC8174" class="xref">[RFC8174]</a> when, and only when, they appear in all capitals, as shown here.</p>
+<p id="rfc.section.1.2.p.2">This document uses the Augmented Backus-Naur Form (ABNF) notation of <a href="#RFC5234" class="xref">[RFC5234]</a> with the list rule extension defined in <a href="#RFC7230" class="xref">[RFC7230]</a>, Appendix B. It includes by reference the DIGIT rule from <a href="#RFC5234" class="xref">[RFC5234]</a> and the OWS and field-name rules from <a href="#RFC7230" class="xref">[RFC7230]</a>.</p>
+<h1 id="rfc.section.2">
+<a href="#rfc.section.2">2.</a> <a href="#the-transport-info-response-header" id="the-transport-info-response-header">The Transport-Info Response Header</a>
+</h1>
+<p id="rfc.section.2.p.1">The Transport-Info header uses the proposed Structured Header draft <a href="#I-D.ietf-httpbis-header-structure" class="xref">[I-D.ietf-httpbis-header-structure]</a></p>
+<pre>
+        Transport-Info = sh-list
+</pre>
+<p id="rfc.section.2.p.2">Each member of the parameterised list represents an entry that contains a set of metrics reported by the edge server.</p>
+<p id="rfc.section.2.p.3">The list members identify the server that inserted the value, and MUST have a type of either sh-string or sh-token. Depending on the deployment, this might be a product or service name (e.g., ExampleEdge or &#8220;Example CDN&#8221;), a hostname (&#8220;edge-1.example.com&#8221;), and IP address, or a generated string.</p>
+<p id="rfc.section.2.p.4">Each member of the list can also have a number of parameters that contain metrics. While all but one of these parameters are OPTIONAL, edge servers are encouraged to provide as much information as possible.</p>
+<p></p>
+
+<ul>
+<li>Exactly one parameter whose name is &#8220;ts&#8221;, and whose value is an sh-float indicating the measurement timestamp in seconds since UNIX epoch.</li>
+<li>Optionally one parameter whose name is &#8220;alpn&#8221;, and whose value is an sh-string representing the ALPN protocol identifier <a href="#alpn-ids" class="xref">[alpn-ids]</a>.</li>
+<li>Optionally one parameter whose name is &#8220;cc_algo&#8221;, and whose value is sh-string, conveying the name of congestion control algorithm used by the server for this connection.</li>
+<li>Optionally one parameter whose name is &#8220;cwnd&#8221;, and whose value is a sh-integer, conveying the size of the server&#8217;s congestion window <a href="#RFC5681" class="xref">[RFC5681]</a> in packets.</li>
+<li>Optionally one parameter whose name is &#8220;rcv_space&#8221;, and whose value is a sh-integer, conveying the size of the receiver&#8217;s window in bytes.</li>
+<li>Optionally one parameter whose name is &#8220;dstport&#8221;, and whose value is a sh-integer, conveying the server&#8217;s destination port of this connection for correlation of measurements between requests.</li>
+<li>Optionally one parameter whose name is &#8220;mss&#8221;, and whose value is a sh-integer, conveying the size of the server&#8217;s Maximum Segment Size in bytes.</li>
+<li>Optionally one parameter whose name is &#8220;rtt&#8221;, and whose value is an sh-float, in milliseconds, indicating the server&#8217;s estimate of the Round-Trip Time from its transport layer.</li>
+<li>Optionally one parameter whose name is &#8220;rttvar&#8221;, and whose value is an sh-float, in milliseconds, indicating the server&#8217;s estimate of the variation of the Round-Trip Time <a href="#RFC6298" class="xref">[RFC6298]</a> from its transport layer.</li>
+<li>Optionally one parameter whose name is &#8220;send_rate&#8221;, and whose value is a sh-float, in kilobits per second, conveying the server&#8217;s calculation of the sending rate for this connection.</li>
+</ul>
+<p id="rfc.section.2.p.6">Here is an example of a header with a single set of metrics:</p>
+<pre>
+Transport-Info = ExampleEdge; ts=1567176968.69; alpn="h2"; cwnd=24;
+                    rtt=250; mss=1460; rttvar=10; dstport=12345
+</pre>
+<p id="rfc.section.2.p.7">Whilst it is understood that such metrics may only provide an instantaneous view on the transport state, the Transport-Info header is designed to allow for delivery of multiple timestamped entries in a single header.</p>
+<p id="rfc.section.2.p.8">Here is an example of header with multiple entries, utilising the structured header inner-list type:</p>
+<pre>
+Transport-Info = "edge-1.example.com"; ts=1567176968.69; alpn="h2"; cwnd=24;
+                    rtt=250; mss=1452; rttvar=10; dstport=123451,
+                 "edge-1.example.com"; ts=1567176969.97; alpn="h2"; cwnd=23;
+                    rtt=255; mss=1452; rttvar=12; dstport=123451
+</pre>
+<p id="rfc.section.2.p.9">If the end points support HTTP/2, and later, another technique to increase temporal coverage for an ongoing session is for the client to issue additional HEAD or OPTION * requests for a resource at the same origin. This works with HTTP/2 and later as all requests to the same origin utilise one TCP or QUIC connection. Whilst the HTTP priorities can affect the allocation of capacity between streams, one use-case for the Transport-Info header is for information regarding sustained flows, such as media delivery, which tend consist of a known limited number of flows to the same origin so the priorities would not affect the calculations.</p>
+<h1 id="rfc.section.2.1">
+<a href="#rfc.section.2.1">2.1.</a> <a href="#utilisation-of-transport-info-header-metrics" id="utilisation-of-transport-info-header-metrics">Utilisation of Transport-Info header metrics</a>
+</h1>
+<p id="rfc.section.2.1.p.1">In the case of TCP, calculation of the transport transmission rate is possible using the cwnd and rtt, and knowledge of the mss. The equation being as follows:</p>
+<pre>
+    send_rate = 8 * send_window / rtt 
+
+    Where send_window = min (cwnd * mss, rcv_space)
+</pre>
+<p id="rfc.section.2.1.p.2">If the mss is not available then it is possible to perform the calculation using an estimate of the mss, or a common value such as 1460 for IPv4. It understood there can be some variation for different network and tunnelled paths (e.g. 1452 for IPv4 PPPoE) as can been seen in recent studies <a href="#exploring-mtu" class="xref">[exploring-mtu]</a>, although the large proportion of mss values fall within a range 1220-1460. The send_window is preferably calculated using a minimum of the cwnd and rcv_space, but if the rcv_space is not available it may be approximated by just using the cwnd.</p>
+<p id="rfc.section.2.1.p.3">This equation maybe applied for other related window based transport protocols (e.g. QUIC <a href="#I-D.ietf-quic-transport" class="xref">[I-D.ietf-quic-transport]</a>) with similar information, although it may need some modification.</p>
+<p id="rfc.section.2.1.p.4">The calculation of the send rate maybe performed at the server, or may be left to the client to calculate as and when required.</p>
+<h1 id="rfc.section.3">
+<a href="#rfc.section.3">3.</a> <a href="#server-side-behaviour" id="server-side-behaviour">Server side behaviour</a>
+</h1>
+<p id="rfc.section.3.p.1">With most web server deployments an origin server sits behind some form of CDN, with varying levels of fan-out to a point where an edge server is connected  on the last mile to clients. The Transport-Info header SHOULD only be inserted into an HTTP stream by the last hop edge server that is connected to clients so that it conveys information pertinent to the client&#8217;s direct transport path. Also the Transport-Info MUST not be cached.</p>
+<p><em>FYI (Remove before publication:</em></p>
+<p id="rfc.section.3.p.3">The provision of the Transport-Info header is possible using a number of existing server systems that already provide support for such metrics, which currently utilise operating system support for tcp_info data structure which are available on Linux and BSD systems.</p>
+<p id="rfc.section.3.p.4">In terms of current implementations there is in-built support in Nginx/Openresty using its variables <samp>var.tcpinfo_rtt</samp> etc. Apache Traffic Server provides support using the TCPInfo plugin. Varnish provides access to <samp>tcp_info</samp> using their <samp>vmod_tcp</samp> module. Node.js has libraries such as <samp>nodejs_tcpinfo</samp> which provide support. Whilst most of the implementations do not provide access to the TCP MSS it is available via the underlying kernel tcp_info data structure so it would be fairly straightforward to provide access to such information.</p>
+<h1 id="rfc.section.4">
+<a href="#rfc.section.4">4.</a> <a href="#client-side-proxy-considerations" id="client-side-proxy-considerations">Client side proxy considerations</a>
+</h1>
+<p id="rfc.section.4.p.1">In the case where a proxy services client requests, this proxy would be configured according to local policy as to whether it passes through, modifies or drops the Transport-Info header. This decision can depend on a number of factors, including the utility of the header given local network configuration, and also whether the header might reveal unwanted information to end clients, since the Transport-Info header would relate to the connection between the edge CDN node and the proxy.</p>
+<h1 id="rfc.section.5">
+<a href="#rfc.section.5">5.</a> <a href="#iana-considerations" id="iana-considerations">IANA Considerations</a>
+</h1>
+<p id="rfc.section.5.p.1">This specification registers the following entry in the Permanent Message Header Field Names registry established by <a href="#RFC3864" class="xref">[RFC3864]</a>:</p>
+<p id="rfc.section.5.p.2">o  Header field name: Transport-Info</p>
+<p id="rfc.section.5.p.3">o  Applicable protocol: http</p>
+<p id="rfc.section.5.p.4">o  Status: standard</p>
+<p id="rfc.section.5.p.5">o  Author/Change Controller: IETF</p>
+<p id="rfc.section.5.p.6">o  Specification document(s): [this document]</p>
+<p id="rfc.section.5.p.7">o  Related information:</p>
+<h1 id="rfc.section.6">
+<a href="#rfc.section.6">6.</a> <a href="#security-considerations" id="security-considerations">Security Considerations</a>
+</h1>
+<p id="rfc.section.6.p.1">The content of the Transport-Info is largely available through other techniques such as packet capture so it should not lead to security issues. Certain metrics, such as the cwnd, may be considered as less visible but since they are part of the transport layer they can inferred. Any metrics that may be considered private should not be sent in the header, or sent only over an encrypted connection.</p>
+<p id="rfc.section.6.p.2">In the case where clients are connected via a proxy then organisations may wish modify or drop the header if they consider the it might reveal unwanted information to end clients.</p>
+<p id="rfc.section.6.p.3">If the header is delivered over a transport protocol whose content can be modified without detection then parties should be aware that the header could be maliciously modified to alter the metrics values which could result in the client making incorrect adaptations.</p>
+<h1 id="rfc.references">
+<a href="#rfc.references">7.</a> References</h1>
+<h1 id="rfc.references.1">
+<a href="#rfc.references.1">7.1.</a> Normative References</h1>
+<table><tbody>
+<tr>
+<td class="reference"><b id="I-D.ietf-httpbis-header-structure">[I-D.ietf-httpbis-header-structure]</b></td>
+<td class="top">
+<a>Nottingham, M.</a> and <a>P. Kamp</a>, "<a href="https://tools.ietf.org/html/draft-ietf-httpbis-header-structure-14">Structured Headers for HTTP</a>", Internet-Draft draft-ietf-httpbis-header-structure-14, October 2019.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC2119">[RFC2119]</b></td>
+<td class="top">
+<a>Bradner, S.</a>, "<a href="https://tools.ietf.org/html/rfc2119">Key words for use in RFCs to Indicate Requirement Levels</a>", BCP 14, RFC 2119, DOI 10.17487/RFC2119, March 1997.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC3864">[RFC3864]</b></td>
+<td class="top">
+<a>Klyne, G.</a>, <a>Nottingham, M.</a> and <a>J. Mogul</a>, "<a href="https://tools.ietf.org/html/rfc3864">Registration Procedures for Message Header Fields</a>", BCP 90, RFC 3864, DOI 10.17487/RFC3864, September 2004.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC5681">[RFC5681]</b></td>
+<td class="top">
+<a>Allman, M.</a>, <a>Paxson, V.</a> and <a>E. Blanton</a>, "<a href="https://tools.ietf.org/html/rfc5681">TCP Congestion Control</a>", RFC 5681, DOI 10.17487/RFC5681, September 2009.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC6298">[RFC6298]</b></td>
+<td class="top">
+<a>Paxson, V.</a>, <a>Allman, M.</a>, <a>Chu, J.</a> and <a>M. Sargent</a>, "<a href="https://tools.ietf.org/html/rfc6298">Computing TCP's Retransmission Timer</a>", RFC 6298, DOI 10.17487/RFC6298, June 2011.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC8174">[RFC8174]</b></td>
+<td class="top">
+<a>Leiba, B.</a>, "<a href="https://tools.ietf.org/html/rfc8174">Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words</a>", BCP 14, RFC 8174, DOI 10.17487/RFC8174, May 2017.</td>
+</tr>
+</tbody></table>
+<h1 id="rfc.references.2">
+<a href="#rfc.references.2">7.2.</a> Informative References</h1>
+<table><tbody>
+<tr>
+<td class="reference"><b id="alpn-ids">[alpn-ids]</b></td>
+<td class="top">"<a href="http://www.iana.org/assignments/tls-extensiontype-values">Application-Layer Protocol Negotiation (ALPN) Protocol ID</a>", IANA , n.d..</td>
+</tr>
+<tr>
+<td class="reference"><b id="exploring-mtu">[exploring-mtu]</b></td>
+<td class="top">
+<a title="University of Aberdeen">Custura, A.</a>, <a title="University of Aberdeen">Fairhurst, G.</a> and <a title="University of Aberdeen">I. Learmonth</a>, "<a href="https://doi.org/10.23919/TMA.2018.8506538">Exploring usable Path MTU in the Internet</a>", Network Traffic Measurement and Analysis Conference , April 2018.</td>
+</tr>
+<tr>
+<td class="reference"><b id="I-D.ietf-quic-transport">[I-D.ietf-quic-transport]</b></td>
+<td class="top">
+<a>Iyengar, J.</a> and <a>M. Thomson</a>, "<a href="https://tools.ietf.org/html/draft-ietf-quic-transport-23">QUIC: A UDP-Based Multiplexed and Secure Transport</a>", Internet-Draft draft-ietf-quic-transport-23, September 2019.</td>
+</tr>
+<tr>
+<td class="reference"><b id="network-info-api">[network-info-api]</b></td>
+<td class="top">
+<a title="Google">Grigorik, I.</a>, "<a href="http://wicg.github.io/netinfo/">Network Information API</a>", W3C , September 2019.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC4898">[RFC4898]</b></td>
+<td class="top">
+<a>Mathis, M.</a>, <a>Heffner, J.</a> and <a>R. Raghunarayan</a>, "<a href="https://tools.ietf.org/html/rfc4898">TCP Extended Statistics MIB</a>", RFC 4898, DOI 10.17487/RFC4898, May 2007.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC5234">[RFC5234]</b></td>
+<td class="top">
+<a>Crocker, D.</a> and <a>P. Overell</a>, "<a href="https://tools.ietf.org/html/rfc5234">Augmented BNF for Syntax Specifications: ABNF</a>", STD 68, RFC 5234, DOI 10.17487/RFC5234, January 2008.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC7230">[RFC7230]</b></td>
+<td class="top">
+<a>Fielding, R.</a> and <a>J. Reschke</a>, "<a href="https://tools.ietf.org/html/rfc7230">Hypertext Transfer Protocol (HTTP/1.1): Message Syntax and Routing</a>", RFC 7230, DOI 10.17487/RFC7230, June 2014.</td>
+</tr>
+</tbody></table>
+<h1 id="rfc.authors"><a href="#rfc.authors">Authors' Addresses</a></h1>
+<div class="avoidbreak">
+  <address class="vcard">
+	<span class="vcardline">
+	  <span class="fn">Piers O'Hanlon</span> 
+	  <span class="n hidden">
+		<span class="family-name">O'Hanlon</span>
+	  </span>
+	</span>
+	<span class="org vcardline">British Broadcasting Corporation</span>
+	<span class="adr">
+	  
+	  <span class="vcardline">
+		<span class="locality"></span> 
+		<span class="region"></span>
+		<span class="code"></span>
+	  </span>
+	  <span class="country-name vcardline"></span>
+	</span>
+	<span class="vcardline">EMail: <a href="mailto:piers.ohanlon@bbc.co.uk">piers.ohanlon@bbc.co.uk</a></span>
+
+  </address>
+</div><div class="avoidbreak">
+  <address class="vcard">
+	<span class="vcardline">
+	  <span class="fn">James Gruessing</span> 
+	  <span class="n hidden">
+		<span class="family-name">Gruessing</span>
+	  </span>
+	</span>
+	<span class="org vcardline">British Broadcasting Corporation</span>
+	<span class="adr">
+	  
+	  <span class="vcardline">
+		<span class="locality"></span> 
+		<span class="region"></span>
+		<span class="code"></span>
+	  </span>
+	  <span class="country-name vcardline"></span>
+	</span>
+	<span class="vcardline">EMail: <a href="mailto:james.gruessing@bbc.co.uk">james.gruessing@bbc.co.uk</a></span>
+
+  </address>
+</div>
+
+</body>
+</html>
+
