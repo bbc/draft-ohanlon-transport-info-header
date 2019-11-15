@@ -22,7 +22,9 @@ Abstract
 
 Note to Readers
 
-   Source for this draft and an issue tracker can be found at
+   _RFC Editor: please remove this section before publication_
+
+   Source code and issues for this draft can be found at
    https://github.com/bbc/draft-ohanlon-transport-info-header [1].
 
 Status of This Memo
@@ -47,9 +49,7 @@ Copyright Notice
    Copyright (c) 2019 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
-   This document is subject to BCP 78 and the IETF Trust's Legal
-   Provisions Relating to IETF Documents
-   (https://trustee.ietf.org/license-info) in effect on the date of
+
 
 
 
@@ -58,6 +58,9 @@ O'Hanlon & Gruessing      Expires May 18, 2020                  [Page 1]
 Internet-Draft            Transport-Info Header            November 2019
 
 
+   This document is subject to BCP 78 and the IETF Trust's Legal
+   Provisions Relating to IETF Documents
+   (https://trustee.ietf.org/license-info) in effect on the date of
    publication of this document.  Please review these documents
    carefully, as they describe your rights and restrictions with respect
    to this document.  Code Components extracted from this document must
@@ -102,9 +105,6 @@ Table of Contents
 
    The information can also be utilised by a client to provide for
    application level client oriented metric logging to back-end systems
-   for monitoring and analysis purposes.  Such data could be utilised in
-   a manner not unlike that proposed in [RFC4898].
-
 
 
 
@@ -113,6 +113,9 @@ O'Hanlon & Gruessing      Expires May 18, 2020                  [Page 2]
 
 Internet-Draft            Transport-Info Header            November 2019
 
+
+   for monitoring and analysis purposes.  Such data could be utilised in
+   a manner not unlike that proposed in [RFC4898].
 
    This approach is directly applicable to TCP but also can be utilised
    with other related transport protocols, such as QUIC
@@ -160,9 +163,6 @@ Internet-Draft            Transport-Info Header            November 2019
    Each member of the parameterised list represents an entry that
    contains a set of metrics reported by the edge server.
 
-   The list members identify the server that inserted the value, and
-   MUST have a type of either sh-string or sh-token.  Depending on the
-
 
 
 O'Hanlon & Gruessing      Expires May 18, 2020                  [Page 3]
@@ -170,6 +170,8 @@ O'Hanlon & Gruessing      Expires May 18, 2020                  [Page 3]
 Internet-Draft            Transport-Info Header            November 2019
 
 
+   The list members identify the server that inserted the value, and
+   MUST have a type of either sh-string or sh-token.  Depending on the
    deployment, this might be a product or service name (e.g.,
    ExampleEdge or "Example CDN"), a hostname ("edge-1.example.com"), and
    IP address, or a generated string.
@@ -215,8 +217,6 @@ Internet-Draft            Transport-Info Header            November 2019
    Transport-Info = ExampleEdge; ts=1567176968.69; alpn="h2"; cwnd=24;
                        rtt=250; mss=1460; rttvar=10; dstport=12345
 
-   Whilst it is understood that such metrics may only provide an
-   instantaneous view on the transport state, the Transport-Info header
 
 
 
@@ -226,6 +226,8 @@ O'Hanlon & Gruessing      Expires May 18, 2020                  [Page 4]
 Internet-Draft            Transport-Info Header            November 2019
 
 
+   Whilst it is understood that such metrics may only provide an
+   instantaneous view on the transport state, the Transport-Info header
    is designed to allow for delivery of multiple timestamped entries in
    a single header.
 
@@ -272,8 +274,6 @@ Transport-Info = "edge-1.example.com"; ts=1567176968.69; alpn="h2"; cwnd=24;
    protocols (e.g.  QUIC [I-D.ietf-quic-transport]) with similar
    information, although it may need some modification.
 
-   The calculation of the send rate maybe performed at the server, or
-   may be left to the client to calculate as and when required.
 
 
 
@@ -281,6 +281,9 @@ O'Hanlon & Gruessing      Expires May 18, 2020                  [Page 5]
 
 Internet-Draft            Transport-Info Header            November 2019
 
+
+   The calculation of the send rate maybe performed at the server, or
+   may be left to the client to calculate as and when required.
 
 3.  Server side behaviour
 
@@ -292,7 +295,7 @@ Internet-Draft            Transport-Info Header            November 2019
    information pertinent to the client's direct transport path.  Also
    the Transport-Info MUST not be cached.
 
-   _FYI (Remove before publication:_
+   _RFC Editor: please remove this section before publication_
 
    The provision of the Transport-Info header is possible using a number
    of existing server systems that already provide support for such
@@ -327,9 +330,6 @@ Internet-Draft            Transport-Info Header            November 2019
 
    o Header field name: Transport-Info
 
-   o Applicable protocol: http
-
-   o Status: standard
 
 
 
@@ -337,6 +337,10 @@ O'Hanlon & Gruessing      Expires May 18, 2020                  [Page 6]
 
 Internet-Draft            Transport-Info Header            November 2019
 
+
+   o Applicable protocol: http
+
+   o Status: standard
 
    o Author/Change Controller: IETF
 
@@ -381,10 +385,6 @@ Internet-Draft            Transport-Info Header            November 2019
               DOI 10.17487/RFC3864, September 2004,
               <https://www.rfc-editor.org/info/rfc3864>.
 
-   [RFC5681]  Allman, M., Paxson, V., and E. Blanton, "TCP Congestion
-              Control", RFC 5681, DOI 10.17487/RFC5681, September 2009,
-              <https://www.rfc-editor.org/info/rfc5681>.
-
 
 
 
@@ -393,6 +393,10 @@ O'Hanlon & Gruessing      Expires May 18, 2020                  [Page 7]
 
 Internet-Draft            Transport-Info Header            November 2019
 
+
+   [RFC5681]  Allman, M., Paxson, V., and E. Blanton, "TCP Congestion
+              Control", RFC 5681, DOI 10.17487/RFC5681, September 2009,
+              <https://www.rfc-editor.org/info/rfc5681>.
 
    [RFC6298]  Paxson, V., Allman, M., Chu, J., and M. Sargent,
               "Computing TCP's Retransmission Timer", RFC 6298,
@@ -438,10 +442,6 @@ Internet-Draft            Transport-Info Header            November 2019
               Protocol (HTTP/1.1): Message Syntax and Routing",
               RFC 7230, DOI 10.17487/RFC7230, June 2014,
               <https://www.rfc-editor.org/info/rfc7230>.
-
-
-
-
 
 
 
