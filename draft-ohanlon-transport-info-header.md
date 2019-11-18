@@ -221,3 +221,8 @@ In the case where clients are connected via a proxy then organisations may wish 
 If the header is delivered over a transport protocol whose content can be modified without detection then parties should be aware that the header could be maliciously modified to alter the metrics values which could result in the client making incorrect adaptations.
 
 --- back
+
+# Acknowledgements
+
+The authors would like to thank Craig Taylor for feedback throughout the
+development of this document.
