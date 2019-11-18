@@ -83,6 +83,7 @@ Table of Contents
      7.1.  Normative References  . . . . . . . . . . . . . . . . . .   7
      7.2.  Informative References  . . . . . . . . . . . . . . . . .   8
      7.3.  URIs  . . . . . . . . . . . . . . . . . . . . . . . . . .   9
+   Appendix A.  Acknowledgements . . . . . . . . . . . . . . . . . .   9
    Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .   9
 
 1.  Introduction
@@ -105,7 +106,6 @@ Table of Contents
 
    The information can also be utilised by a client to provide for
    application level client oriented metric logging to back-end systems
-
 
 
 
@@ -459,6 +459,11 @@ Internet-Draft            Transport-Info Header            November 2019
 
    [1] https://github.com/bbc/draft-ohanlon-transport-info-header
 
+Appendix A.  Acknowledgements
+
+   The authors would like to thank Craig Taylor for feedback throughout
+   the development of this document.
+
 Authors' Addresses
 
    Piers O'Hanlon
@@ -471,11 +476,6 @@ Authors' Addresses
    British Broadcasting Corporation
 
    Email: james.gruessing@bbc.co.uk
-
-
-
-
-
 
 
 
