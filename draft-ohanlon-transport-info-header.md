@@ -35,6 +35,7 @@ informative:
     RFC4898:
     RFC5234:
     RFC7230:
+    I-D.ietf-httpbis-semantics:
     I-D.ietf-quic-transport:
     network-info-api:
         title: "Network Information API"
@@ -214,7 +215,7 @@ This specification registers the following entry in the Permanent Message Header
 
 # Security Considerations
 
-The content of the Transport-Info is largely available through other techniques such as packet capture so it should not lead to security issues. Certain metrics, such as the cwnd, may be considered as less visible but since they are part of the transport layer they can inferred. Any metrics that may be considered private should not be sent in the header, or sent only over an encrypted connection.
+The content of the Transport-Info is largely available through other techniques such as packet capture so it should not lead to security issues. Certain metrics, such as the cwnd, may be considered as less visible but since they are part of the transport layer they can inferred. Any metrics that may be considered private should not be sent in the header, or sent only over an encrypted connection. The header could also be used as a means of performing fingerprinting clients ({{I-D.ietf-httpbis-semantics}}) by inferring correlation of the metrics.
 
 In the case where clients are connected via a proxy then organisations may wish modify or drop the header if they consider the it might reveal unwanted information to end clients.
 
