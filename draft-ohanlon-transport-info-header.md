@@ -81,6 +81,7 @@ Source code and issues for this draft can be found at <https://github.com/bbc/dr
 
 --- middle
 
+
 # Introduction
 
 The Transport-Info header provides for relaying of transport protocol related information from a last-mile edge server entity to a client with the aim of informing the client of the server's view on the transport state. The state of a connection is dependent upon information based upon packet exchanges during the transport processes. Firstly, there is information that is common to both client and server, such as the calculated round-trip time (RTT), although it may be measured using different packets at each end. Secondly, there is state information that exists only at each endpoint, such as the size of the congestion, and receive windows. Thus certain transport state information is only available at the server which can be useful to the client, for example, to calculate the current transport rate. This information may then be used to better inform a client of the state of the network path and make appropriate adaptations.
@@ -96,6 +97,7 @@ This work is motivated in part by the fact that even in modern web browsers web 
 
 There exist W3C specifications such as the Network Information API {{network-info-api}}, which contains an attribute named "downlink" that purports to provide measurement of effective bandwidth "across recently active connections". However, in practice the downlink measurement appears to be a very rough estimate which is of little use for informing an application of dynamic network conditions. Furthermore, it currently has limited browser support.
 
+
 ## Notational Conventions
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD",
@@ -104,6 +106,7 @@ document are to be interpreted as described in BCP 14 {{!RFC2119}} {{!RFC8174}}
 when, and only when, they appear in all capitals, as shown here.
 
 This document uses the Augmented Backus-Naur Form (ABNF) notation of {{RFC5234}} with the list rule extension defined in {{RFC7230}}, Appendix B. It includes by reference the DIGIT rule from {{RFC5234}} and the OWS and field-name rules from {{RFC7230}}.
+
 
 # The Transport-Info Response Header
 
@@ -143,7 +146,6 @@ Each member of the list can also have a number of parameters that contain metric
 * Optionally one parameter whose name is "send_rate", and whose value is a sh-float,
   in kilobits per second, conveying the server's calculation of the sending rate for this connection.
 
-
 Here is an example of a header with a single set of metrics:
 
 ~~~ example
@@ -163,6 +165,7 @@ Transport-Info = "edge-1.example.com"; ts=1567176968.69; alpn="h2"; cwnd=24;
 ~~~
 
 If the end points support HTTP/2, and later, another technique to increase temporal coverage for an ongoing session is for the client to issue additional HEAD or OPTION * requests for a resource at the same origin. This works with HTTP/2 and later as all requests to the same origin utilise one TCP or QUIC connection. Whilst the HTTP priorities can affect the allocation of capacity between streams, one use-case for the Transport-Info header is for information regarding sustained flows, such as media delivery, which tend consist of a known limited number of flows to the same origin so the priorities would not affect the calculations.
+
 
 ## Utilisation of Transport-Info header metrics
 
@@ -188,6 +191,7 @@ With most web server deployments an origin server sits behind some form of CDN, 
 # Client side proxy considerations
 
 In the case where a proxy services client requests, this proxy would be configured according to local policy as to whether it passes through, modifies or drops the Transport-Info header. This decision can depend on a number of factors, including the utility of the header given local network configuration, and also whether the header might reveal unwanted information to end clients, since the Transport-Info header would relate to the connection between the edge CDN node and the proxy.
+
 
 # IANA Considerations
 
