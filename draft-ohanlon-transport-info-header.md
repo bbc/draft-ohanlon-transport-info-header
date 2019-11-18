@@ -122,7 +122,7 @@ Each member of the parameterised list represents an entry that contains a set of
 
 The list members identify the server that inserted the value, and MUST have a type of either sh-string or sh-token. Depending on the deployment, this might be a product or service name (e.g., ExampleEdge or "Example CDN"), a hostname ("edge-1.example.com"), and IP address, or a generated string.
 
-Each member of the list can also have a number of parameters that contain metrics. While all but one of these parameters are OPTIONAL, edge servers are encouraged to provide as much information as possible.
+Each member of the list can also have a number of parameters that contain metrics. While all but one of these parameters are OPTIONAL, edge servers are encouraged to provide as much information as possible. This list is non-exhaustive; additional metrics can be included by implementations but MUST NOT override the definitions of the metrics below.
 
 * Exactly one parameter whose name is "ts", and whose value is an
   sh-float indicating the measurement timestamp in seconds since UNIX epoch.
