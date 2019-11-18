@@ -179,7 +179,9 @@ Internet-Draft            Transport-Info Header            November 2019
    Each member of the list can also have a number of parameters that
    contain metrics.  While all but one of these parameters are OPTIONAL,
    edge servers are encouraged to provide as much information as
-   possible.
+   possible.  This list is non-exhaustive; additional metrics can be
+   included by implementations but MUST NOT override the definitions of
+   the metrics below.
 
    o  Exactly one parameter whose name is "ts", and whose value is an
       sh-float indicating the measurement timestamp in seconds since
@@ -200,10 +202,11 @@ Internet-Draft            Transport-Info Header            November 2019
       connection for correlation of measurements between requests.
    o  Optionally one parameter whose name is "mss", and whose value is a
       sh-integer, conveying the size of the server's Maximum Segment
-      Size in bytes.
+      Size in bytes [RFC6691].
    o  Optionally one parameter whose name is "rtt", and whose value is
       an sh-float, in milliseconds, indicating the server's estimate of
-      the Round-Trip Time from its transport layer.
+      the Round-Trip Time from its transport layer [RFC6298]
+      [I-D.ietf-quic-recovery].
    o  Optionally one parameter whose name is "rttvar", and whose value
       is an sh-float, in milliseconds, indicating the server's estimate
       of the variation of the Round-Trip Time [RFC6298] from its
@@ -214,9 +217,6 @@ Internet-Draft            Transport-Info Header            November 2019
 
    Here is an example of a header with a single set of metrics:
 
-   Transport-Info = ExampleEdge; ts=1567176968.69; alpn="h2"; cwnd=24;
-                       rtt=250; mss=1460; rttvar=10; dstport=12345
-
 
 
 
@@ -225,6 +225,9 @@ O'Hanlon & Gruessing      Expires May 21, 2020                  [Page 4]
 
 Internet-Draft            Transport-Info Header            November 2019
 
+
+   Transport-Info = ExampleEdge; ts=1567176968.69; alpn="h2"; cwnd=24;
+                       rtt=250; mss=1460; rttvar=10; dstport=12345
 
    Whilst it is understood that such metrics may only provide an
    instantaneous view on the transport state, the Transport-Info header
@@ -270,9 +273,6 @@ Transport-Info = "edge-1.example.com"; ts=1567176968.69; alpn="h2"; cwnd=24;
    rcv_space, but if the rcv_space is not available it may be
    approximated by just using the cwnd.
 
-   This equation maybe applied for other related window based transport
-   protocols (e.g.  QUIC [I-D.ietf-quic-transport]) with similar
-   information, although it may need some modification.
 
 
 
@@ -281,6 +281,10 @@ O'Hanlon & Gruessing      Expires May 21, 2020                  [Page 5]
 
 Internet-Draft            Transport-Info Header            November 2019
 
+
+   This equation maybe applied for other related window based transport
+   protocols (e.g.  QUIC [I-D.ietf-quic-transport]) with similar
+   information, although it may need some modification.
 
    The calculation of the send rate maybe performed at the server, or
    may be left to the client to calculate as and when required.
@@ -294,23 +298,6 @@ Internet-Draft            Transport-Info Header            November 2019
    edge server that is connected to clients so that it conveys
    information pertinent to the client's direct transport path.  Also
    the Transport-Info MUST not be cached.
-
-   _RFC Editor: please remove this section before publication_
-
-   The provision of the Transport-Info header is possible using a number
-   of existing server systems that already provide support for such
-   metrics, which currently utilise operating system support for
-   tcp_info data structure which are available on Linux and BSD systems.
-
-   In terms of current implementations there is in-built support in
-   Nginx/Openresty using its variables "var.tcpinfo_rtt" etc.  Apache
-   Traffic Server provides support using the TCPInfo plugin.  Varnish
-   provides access to "tcp_info" using their "vmod_tcp" module.  Node.js
-   has libraries such as "nodejs_tcpinfo" which provide support.  Whilst
-   most of the implementations do not provide access to the TCP MSS it
-   is available via the underlying kernel tcp_info data structure so it
-   would be fairly straightforward to provide access to such
-   information.
 
 4.  Client side proxy considerations
 
@@ -330,14 +317,6 @@ Internet-Draft            Transport-Info Header            November 2019
 
    o Header field name: Transport-Info
 
-
-
-
-O'Hanlon & Gruessing      Expires May 21, 2020                  [Page 6]
-
-Internet-Draft            Transport-Info Header            November 2019
-
-
    o Applicable protocol: http
 
    o Status: standard
@@ -348,6 +327,17 @@ Internet-Draft            Transport-Info Header            November 2019
 
    o Related information:
 
+
+
+
+
+
+
+O'Hanlon & Gruessing      Expires May 21, 2020                  [Page 6]
+
+Internet-Draft            Transport-Info Header            November 2019
+
+
 6.  Security Considerations
 
    The content of the Transport-Info is largely available through other
@@ -355,7 +345,10 @@ Internet-Draft            Transport-Info Header            November 2019
    issues.  Certain metrics, such as the cwnd, may be considered as less
    visible but since they are part of the transport layer they can
    inferred.  Any metrics that may be considered private should not be
-   sent in the header, or sent only over an encrypted connection.
+   sent in the header, or sent only over an encrypted connection.  The
+   header could also be used as a means of performing fingerprinting
+   clients ([I-D.ietf-httpbis-semantics]) by inferring correlation of
+   the metrics.
 
    In the case where clients are connected via a proxy then
    organisations may wish modify or drop the header if they consider the
@@ -364,9 +357,7 @@ Internet-Draft            Transport-Info Header            November 2019
    If the header is delivered over a transport protocol whose content
    can be modified without detection then parties should be aware that
    the header could be maliciously modified to alter the metrics values
-   which could result in the client making incorrect adaptations.  The
-   header could be used as a means of performing fingerprinting of
-   clients ([I-D.ietf-httpbis-semantics]) by a middlebox
+   which could result in the client making incorrect adaptations.
 
 7.  References
 
@@ -387,13 +378,6 @@ Internet-Draft            Transport-Info Header            November 2019
               DOI 10.17487/RFC3864, September 2004,
               <https://www.rfc-editor.org/info/rfc3864>.
 
-
-
-O'Hanlon & Gruessing      Expires May 21, 2020                  [Page 7]
-
-Internet-Draft            Transport-Info Header            November 2019
-
-
    [RFC5681]  Allman, M., Paxson, V., and E. Blanton, "TCP Congestion
               Control", RFC 5681, DOI 10.17487/RFC5681, September 2009,
               <https://www.rfc-editor.org/info/rfc5681>.
@@ -402,6 +386,13 @@ Internet-Draft            Transport-Info Header            November 2019
               "Computing TCP's Retransmission Timer", RFC 6298,
               DOI 10.17487/RFC6298, June 2011,
               <https://www.rfc-editor.org/info/rfc6298>.
+
+
+
+O'Hanlon & Gruessing      Expires May 21, 2020                  [Page 7]
+
+Internet-Draft            Transport-Info Header            November 2019
+
 
    [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
@@ -425,6 +416,11 @@ Internet-Draft            Transport-Info Header            November 2019
               Semantics", draft-ietf-httpbis-semantics-05 (work in
               progress), July 2019.
 
+   [I-D.ietf-quic-recovery]
+              Iyengar, J. and I. Swett, "QUIC Loss Detection and
+              Congestion Control", draft-ietf-quic-recovery-23 (work in
+              progress), September 2019.
+
    [I-D.ietf-quic-transport]
               Iyengar, J. and M. Thomson, "QUIC: A UDP-Based Multiplexed
               and Secure Transport", draft-ietf-quic-transport-23 (work
@@ -442,6 +438,10 @@ Internet-Draft            Transport-Info Header            November 2019
               Specifications: ABNF", STD 68, RFC 5234,
               DOI 10.17487/RFC5234, January 2008,
               <https://www.rfc-editor.org/info/rfc5234>.
+
+   [RFC6691]  Borman, D., "TCP Options and Maximum Segment Size (MSS)",
+              RFC 6691, DOI 10.17487/RFC6691, July 2012,
+              <https://www.rfc-editor.org/info/rfc6691>.
 
 
 

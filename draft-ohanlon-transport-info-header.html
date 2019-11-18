@@ -411,7 +411,7 @@ ul.toc li {
 </pre>
 <p id="rfc.section.2.p.2">Each member of the parameterised list represents an entry that contains a set of metrics reported by the edge server.</p>
 <p id="rfc.section.2.p.3">The list members identify the server that inserted the value, and MUST have a type of either sh-string or sh-token. Depending on the deployment, this might be a product or service name (e.g., ExampleEdge or &#8220;Example CDN&#8221;), a hostname (&#8220;edge-1.example.com&#8221;), and IP address, or a generated string.</p>
-<p id="rfc.section.2.p.4">Each member of the list can also have a number of parameters that contain metrics. While all but one of these parameters are OPTIONAL, edge servers are encouraged to provide as much information as possible.</p>
+<p id="rfc.section.2.p.4">Each member of the list can also have a number of parameters that contain metrics. While all but one of these parameters are OPTIONAL, edge servers are encouraged to provide as much information as possible. This list is non-exhaustive; additional metrics can be included by implementations but MUST NOT override the definitions of the metrics below.</p>
 <p></p>
 
 <ul>
@@ -421,8 +421,8 @@ ul.toc li {
 <li>Optionally one parameter whose name is &#8220;cwnd&#8221;, and whose value is a sh-integer, conveying the size of the server&#8217;s congestion window <a href="#RFC5681" class="xref">[RFC5681]</a> in packets.</li>
 <li>Optionally one parameter whose name is &#8220;rcv_space&#8221;, and whose value is a sh-integer, conveying the size of the receiver&#8217;s window in bytes.</li>
 <li>Optionally one parameter whose name is &#8220;dstport&#8221;, and whose value is a sh-integer, conveying the server&#8217;s destination port of this connection for correlation of measurements between requests.</li>
-<li>Optionally one parameter whose name is &#8220;mss&#8221;, and whose value is a sh-integer, conveying the size of the server&#8217;s Maximum Segment Size in bytes.</li>
-<li>Optionally one parameter whose name is &#8220;rtt&#8221;, and whose value is an sh-float, in milliseconds, indicating the server&#8217;s estimate of the Round-Trip Time from its transport layer.</li>
+<li>Optionally one parameter whose name is &#8220;mss&#8221;, and whose value is a sh-integer, conveying the size of the server&#8217;s Maximum Segment Size in bytes <a href="#RFC6691" class="xref">[RFC6691]</a>.</li>
+<li>Optionally one parameter whose name is &#8220;rtt&#8221;, and whose value is an sh-float, in milliseconds, indicating the server&#8217;s estimate of the Round-Trip Time from its transport layer <a href="#RFC6298" class="xref">[RFC6298]</a> <a href="#I-D.ietf-quic-recovery" class="xref">[I-D.ietf-quic-recovery]</a>.</li>
 <li>Optionally one parameter whose name is &#8220;rttvar&#8221;, and whose value is an sh-float, in milliseconds, indicating the server&#8217;s estimate of the variation of the Round-Trip Time <a href="#RFC6298" class="xref">[RFC6298]</a> from its transport layer.</li>
 <li>Optionally one parameter whose name is &#8220;send_rate&#8221;, and whose value is a sh-float, in kilobits per second, conveying the server&#8217;s calculation of the sending rate for this connection.</li>
 </ul>
@@ -456,9 +456,6 @@ Transport-Info = "edge-1.example.com"; ts=1567176968.69; alpn="h2"; cwnd=24;
 <a href="#rfc.section.3">3.</a> <a href="#server-side-behaviour" id="server-side-behaviour">Server side behaviour</a>
 </h1>
 <p id="rfc.section.3.p.1">With most web server deployments an origin server sits behind some form of CDN, with varying levels of fan-out to a point where an edge server is connected  on the last mile to clients. The Transport-Info header SHOULD only be inserted into an HTTP stream by the last hop edge server that is connected to clients so that it conveys information pertinent to the client&#8217;s direct transport path. Also the Transport-Info MUST not be cached.</p>
-<p><em>RFC Editor: please remove this section before publication</em></p>
-<p id="rfc.section.3.p.3">The provision of the Transport-Info header is possible using a number of existing server systems that already provide support for such metrics, which currently utilise operating system support for tcp_info data structure which are available on Linux and BSD systems.</p>
-<p id="rfc.section.3.p.4">In terms of current implementations there is in-built support in Nginx/Openresty using its variables <samp>var.tcpinfo_rtt</samp> etc. Apache Traffic Server provides support using the TCPInfo plugin. Varnish provides access to <samp>tcp_info</samp> using their <samp>vmod_tcp</samp> module. Node.js has libraries such as <samp>nodejs_tcpinfo</samp> which provide support. Whilst most of the implementations do not provide access to the TCP MSS it is available via the underlying kernel tcp_info data structure so it would be fairly straightforward to provide access to such information.</p>
 <h1 id="rfc.section.4">
 <a href="#rfc.section.4">4.</a> <a href="#client-side-proxy-considerations" id="client-side-proxy-considerations">Client side proxy considerations</a>
 </h1>
@@ -476,9 +473,9 @@ Transport-Info = "edge-1.example.com"; ts=1567176968.69; alpn="h2"; cwnd=24;
 <h1 id="rfc.section.6">
 <a href="#rfc.section.6">6.</a> <a href="#security-considerations" id="security-considerations">Security Considerations</a>
 </h1>
-<p id="rfc.section.6.p.1">The content of the Transport-Info is largely available through other techniques such as packet capture so it should not lead to security issues. Certain metrics, such as the cwnd, may be considered as less visible but since they are part of the transport layer they can inferred. Any metrics that may be considered private should not be sent in the header, or sent only over an encrypted connection.</p>
+<p id="rfc.section.6.p.1">The content of the Transport-Info is largely available through other techniques such as packet capture so it should not lead to security issues. Certain metrics, such as the cwnd, may be considered as less visible but since they are part of the transport layer they can inferred. Any metrics that may be considered private should not be sent in the header, or sent only over an encrypted connection. The header could also be used as a means of performing fingerprinting clients (<a href="#I-D.ietf-httpbis-semantics" class="xref">[I-D.ietf-httpbis-semantics]</a>) by inferring correlation of the metrics.</p>
 <p id="rfc.section.6.p.2">In the case where clients are connected via a proxy then organisations may wish modify or drop the header if they consider the it might reveal unwanted information to end clients.</p>
-<p id="rfc.section.6.p.3">If the header is delivered over a transport protocol whose content can be modified without detection then parties should be aware that the header could be maliciously modified to alter the metrics values which could result in the client making incorrect adaptations. The header could be used as a means of performing fingerprinting of clients (<a href="#I-D.ietf-httpbis-semantics" class="xref">[I-D.ietf-httpbis-semantics]</a>) by a middlebox</p>
+<p id="rfc.section.6.p.3">If the header is delivered over a transport protocol whose content can be modified without detection then parties should be aware that the header could be maliciously modified to alter the metrics values which could result in the client making incorrect adaptations.</p>
 <h1 id="rfc.references">
 <a href="#rfc.references">7.</a> References</h1>
 <h1 id="rfc.references.1">
@@ -533,6 +530,11 @@ Transport-Info = "edge-1.example.com"; ts=1567176968.69; alpn="h2"; cwnd=24;
 <a>Fielding, R.</a>, <a>Nottingham, M.</a> and <a>J. Reschke</a>, "<a href="https://tools.ietf.org/html/draft-ietf-httpbis-semantics-05">HTTP Semantics</a>", Internet-Draft draft-ietf-httpbis-semantics-05, July 2019.</td>
 </tr>
 <tr>
+<td class="reference"><b id="I-D.ietf-quic-recovery">[I-D.ietf-quic-recovery]</b></td>
+<td class="top">
+<a>Iyengar, J.</a> and <a>I. Swett</a>, "<a href="https://tools.ietf.org/html/draft-ietf-quic-recovery-23">QUIC Loss Detection and Congestion Control</a>", Internet-Draft draft-ietf-quic-recovery-23, September 2019.</td>
+</tr>
+<tr>
 <td class="reference"><b id="I-D.ietf-quic-transport">[I-D.ietf-quic-transport]</b></td>
 <td class="top">
 <a>Iyengar, J.</a> and <a>M. Thomson</a>, "<a href="https://tools.ietf.org/html/draft-ietf-quic-transport-23">QUIC: A UDP-Based Multiplexed and Secure Transport</a>", Internet-Draft draft-ietf-quic-transport-23, September 2019.</td>
@@ -551,6 +553,11 @@ Transport-Info = "edge-1.example.com"; ts=1567176968.69; alpn="h2"; cwnd=24;
 <td class="reference"><b id="RFC5234">[RFC5234]</b></td>
 <td class="top">
 <a>Crocker, D.</a> and <a>P. Overell</a>, "<a href="https://tools.ietf.org/html/rfc5234">Augmented BNF for Syntax Specifications: ABNF</a>", STD 68, RFC 5234, DOI 10.17487/RFC5234, January 2008.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC6691">[RFC6691]</b></td>
+<td class="top">
+<a>Borman, D.</a>, "<a href="https://tools.ietf.org/html/rfc6691">TCP Options and Maximum Segment Size (MSS)</a>", RFC 6691, DOI 10.17487/RFC6691, July 2012.</td>
 </tr>
 <tr>
 <td class="reference"><b id="RFC7230">[RFC7230]</b></td>
