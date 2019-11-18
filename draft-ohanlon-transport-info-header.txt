@@ -5,7 +5,7 @@
 HTTP                                                         P. O'Hanlon
 Internet-Draft                                              J. Gruessing
 Intended status: Standards Track        British Broadcasting Corporation
-Expires: May 18, 2020                                  November 15, 2019
+Expires: May 21, 2020                                  November 18, 2019
 
 
                    The Transport-Info Response Header
@@ -42,7 +42,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on May 18, 2020.
+   This Internet-Draft will expire on May 21, 2020.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-O'Hanlon & Gruessing      Expires May 18, 2020                  [Page 1]
+O'Hanlon & Gruessing      Expires May 21, 2020                  [Page 1]
 
 Internet-Draft            Transport-Info Header            November 2019
 
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-O'Hanlon & Gruessing      Expires May 18, 2020                  [Page 2]
+O'Hanlon & Gruessing      Expires May 21, 2020                  [Page 2]
 
 Internet-Draft            Transport-Info Header            November 2019
 
@@ -165,7 +165,7 @@ Internet-Draft            Transport-Info Header            November 2019
 
 
 
-O'Hanlon & Gruessing      Expires May 18, 2020                  [Page 3]
+O'Hanlon & Gruessing      Expires May 21, 2020                  [Page 3]
 
 Internet-Draft            Transport-Info Header            November 2019
 
@@ -221,7 +221,7 @@ Internet-Draft            Transport-Info Header            November 2019
 
 
 
-O'Hanlon & Gruessing      Expires May 18, 2020                  [Page 4]
+O'Hanlon & Gruessing      Expires May 21, 2020                  [Page 4]
 
 Internet-Draft            Transport-Info Header            November 2019
 
@@ -277,7 +277,7 @@ Transport-Info = "edge-1.example.com"; ts=1567176968.69; alpn="h2"; cwnd=24;
 
 
 
-O'Hanlon & Gruessing      Expires May 18, 2020                  [Page 5]
+O'Hanlon & Gruessing      Expires May 21, 2020                  [Page 5]
 
 Internet-Draft            Transport-Info Header            November 2019
 
@@ -333,7 +333,7 @@ Internet-Draft            Transport-Info Header            November 2019
 
 
 
-O'Hanlon & Gruessing      Expires May 18, 2020                  [Page 6]
+O'Hanlon & Gruessing      Expires May 21, 2020                  [Page 6]
 
 Internet-Draft            Transport-Info Header            November 2019
 
@@ -364,7 +364,9 @@ Internet-Draft            Transport-Info Header            November 2019
    If the header is delivered over a transport protocol whose content
    can be modified without detection then parties should be aware that
    the header could be maliciously modified to alter the metrics values
-   which could result in the client making incorrect adaptations.
+   which could result in the client making incorrect adaptations.  The
+   header could be used as a means of performing fingerprinting of
+   clients ([I-D.ietf-httpbis-semantics]) by a middlebox
 
 7.  References
 
@@ -387,9 +389,7 @@ Internet-Draft            Transport-Info Header            November 2019
 
 
 
-
-
-O'Hanlon & Gruessing      Expires May 18, 2020                  [Page 7]
+O'Hanlon & Gruessing      Expires May 21, 2020                  [Page 7]
 
 Internet-Draft            Transport-Info Header            November 2019
 
@@ -420,6 +420,11 @@ Internet-Draft            Transport-Info Header            November 2019
               Measurement and Analysis Conference , April 2018,
               <https://doi.org/10.23919/TMA.2018.8506538>.
 
+   [I-D.ietf-httpbis-semantics]
+              Fielding, R., Nottingham, M., and J. Reschke, "HTTP
+              Semantics", draft-ietf-httpbis-semantics-05 (work in
+              progress), July 2019.
+
    [I-D.ietf-quic-transport]
               Iyengar, J. and M. Thomson, "QUIC: A UDP-Based Multiplexed
               and Secure Transport", draft-ietf-quic-transport-23 (work
@@ -438,17 +443,17 @@ Internet-Draft            Transport-Info Header            November 2019
               DOI 10.17487/RFC5234, January 2008,
               <https://www.rfc-editor.org/info/rfc5234>.
 
+
+
+O'Hanlon & Gruessing      Expires May 21, 2020                  [Page 8]
+
+Internet-Draft            Transport-Info Header            November 2019
+
+
    [RFC7230]  Fielding, R., Ed. and J. Reschke, Ed., "Hypertext Transfer
               Protocol (HTTP/1.1): Message Syntax and Routing",
               RFC 7230, DOI 10.17487/RFC7230, June 2014,
               <https://www.rfc-editor.org/info/rfc7230>.
-
-
-
-O'Hanlon & Gruessing      Expires May 18, 2020                  [Page 8]
-
-Internet-Draft            Transport-Info Header            November 2019
-
 
 7.3.  URIs
 
@@ -496,9 +501,4 @@ Authors' Addresses
 
 
 
-
-
-
-
-
-O'Hanlon & Gruessing      Expires May 18, 2020                  [Page 9]
+O'Hanlon & Gruessing      Expires May 21, 2020                  [Page 9]
