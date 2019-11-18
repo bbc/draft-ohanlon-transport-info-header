@@ -34,8 +34,10 @@ normative:
 informative:
     RFC4898:
     RFC5234:
+    RFC6691:
     RFC7230:
     I-D.ietf-httpbis-semantics:
+    I-D.ietf-quic-recovery:
     I-D.ietf-quic-transport:
     network-info-api:
         title: "Network Information API"
@@ -136,10 +138,10 @@ Each member of the list can also have a number of parameters that contain metric
   sh-integer, conveying the server's destination port of this connection for correlation
   of measurements between requests.
 * Optionally one parameter whose name is "mss", and whose value is a
-  sh-integer, conveying the size of the server's Maximum Segment Size in bytes.
+  sh-integer, conveying the size of the server's Maximum Segment Size in bytes {{RFC6691}}.
 * Optionally one parameter whose name is "rtt", and whose value is an
   sh-float, in milliseconds, indicating the server's estimate of the Round-Trip
-  Time from its transport layer.
+  Time from its transport layer {{RFC6298}} {{I-D.ietf-quic-recovery}}.
 * Optionally one parameter whose name is "rttvar", and whose value is an
   sh-float, in milliseconds, indicating the server's estimate of the variation
   of the Round-Trip Time {{!RFC6298}} from its transport layer.
