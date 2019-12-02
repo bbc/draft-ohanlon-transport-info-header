@@ -26,6 +26,7 @@ pi: [toc, tocindent, sortrefs, symrefs, strict, compact, subcompact, comments, i
 
 normative:
     RFC2119:
+    RFC3339:
     RFC3864:
     RFC5681:
     RFC6298:
@@ -119,7 +120,7 @@ The list members identify the server that inserted the value, and MUST have a ty
 Each member of the list can also have a number of parameters that contain metrics. While all but one of these parameters are OPTIONAL, edge servers are encouraged to provide as much information as possible.
 
 * Exactly one parameter whose name is "ts", and whose value is an
-  sh-float indicating the measurement timestamp in seconds since UNIX epoch.
+  sh-string indicating the measurement timestamp in {{!RFC3339}} format.
 * Optionally one parameter whose name is "alpn", and whose value is an
   sh-string representing the ALPN protocol identifier {{alpn-ids}}.
 * Optionally one parameter whose name is "cc_algo", and whose value is sh-string,
@@ -146,7 +147,7 @@ Each member of the list can also have a number of parameters that contain metric
 Here is an example of a header with a single set of metrics:
 
 ~~~ example
-Transport-Info = ExampleEdge; ts=1567176968.69; alpn="h2"; cwnd=24;
+Transport-Info = ExampleEdge; ts="2019-08-30T14:56:08Z"; alpn="h2"; cwnd=24;
                     rtt=250; mss=1460; rttvar=10; dstport=12345
 ~~~
 
@@ -155,9 +156,9 @@ Whilst it is understood that such metrics may only provide an instantaneous view
 Here is an example of header with multiple entries, utilising the structured header inner-list type:
 
 ~~~ example
-Transport-Info = "edge-1.example.com"; ts=1567176968.69; cwnd=24;
+Transport-Info = "edge-1.example.com"; ts="2019-08-30T14:56:08Z"; cwnd=24;
                     rtt=250; mss=1452; rttvar=10; dstport=123451,
-                 "edge-1.example.com"; ts=1567176969.97; cwnd=23;
+                 "edge-1.example.com"; ts="2019-08-30T14:57:08Z"; cwnd=23;
                     rtt=255; mss=1452; rttvar=12; dstport=123451
 ~~~
 
