@@ -157,9 +157,9 @@ Here is an example of header with multiple entries, utilising the structured hea
 
 ~~~ example
 Transport-Info = "edge-1.example.com"; ts="2019-08-30T14:56:08Z"; cwnd=24;
-                    rtt=250; mss=1452; rttvar=10; dstport=123451,
+                    rtt=250; mss=1452; rttvar=10; dstport=48065,
                  "edge-1.example.com"; ts="2019-08-30T14:57:08Z"; cwnd=23;
-                    rtt=255; mss=1452; rttvar=12; dstport=123451
+                    rtt=255; mss=1452; rttvar=12; dstport=48065
 ~~~
 
 If the end points support HTTP/2, and later, another technique to increase temporal coverage for an ongoing session is for the client to issue additional HEAD or OPTION * requests for a resource at the same origin. This works with HTTP/2 and later as all requests to the same origin utilise one TCP or QUIC connection. Whilst the HTTP priorities can affect the allocation of capacity between streams, one use-case for the Transport-Info header is for information regarding sustained flows, such as media delivery, which tend consist of a known limited number of flows to the same origin so the priorities would not affect the calculations.
