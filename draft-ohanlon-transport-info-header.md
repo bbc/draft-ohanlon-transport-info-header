@@ -147,7 +147,7 @@ Each member of the list can also have a number of parameters that contain metric
 Here is an example of a header with a single set of metrics:
 
 ~~~ example
-Transport-Info = ExampleEdge; ts="2019-08-30T14:56:08Z"; alpn="h2"; cwnd=24;
+Transport-Info = ExampleEdge; ts="2019-08-30T14:56:08.069Z"; alpn="h2"; cwnd=24;
                     rtt=250; mss=1460; rttvar=10; dstport=12345
 ~~~
 
