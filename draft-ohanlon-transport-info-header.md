@@ -1,5 +1,5 @@
 ---
-title: "The Transport-Info Response Header"
+title: "The Transport-Info HTTP Header"
 abbrev: "Transport-Info Header"
 docname: draft-ohanlon-transport-info-header-latest
 date: {DATE}
@@ -71,7 +71,7 @@ informative:
 
 --- abstract
 
-The Transport-Info header provides a mechanism to inform a client of the last-mile server's view of the network transport related information such as current delivery rate and round-trip time. This information has a wide range of uses such as client monitoring and diagnostics, or allowing a client to adapt to current network conditions.
+The Transport-Info header provides a mechanism to transmit network transport related information such as current delivery rate and round-trip time when it may be not accessible. This information has a wide range of uses such as client monitoring and diagnostics, or allowing a client to adapt to current network conditions.
 
 --- note_Note_to_Readers
 
@@ -83,7 +83,7 @@ Source code and issues for this draft can be found at <https://github.com/bbc/dr
 
 # Introduction
 
-The Transport-Info header provides for relaying of transport protocol related information from a last-mile edge server entity to a client with the aim of informing the client of the server's view on the transport state. The state of a connection is dependent upon information based upon packet exchanges during the transport processes. Firstly, there is information that is common to both client and server, such as the calculated round-trip time (RTT), although it may be measured using different packets at each end. Secondly, there is state information that exists only at each endpoint, such as the size of the congestion, and receive windows. Thus certain transport state information is only available at the server which can be useful to the client, for example, to calculate the current transport rate. This information may then be used to better inform a client of the state of the network path and make appropriate adaptations.
+The Transport-Info header provides for relaying of transport protocol related information from either a client or server entity with the aim of informing the sender's view on the transport state. The state of a connection is dependent upon information based upon packet exchanges during the transport processes. Firstly, there is information that is common to both client and server, such as the calculated round-trip time (RTT), although it may be measured using different packets at each end. Secondly, there is state information that exists only at each endpoint, such as the size of the congestion, and receive windows. Thus certain transport state information is only available at the server which can be useful to the client, for example, to calculate the current transport rate. This information may then be used to better inform a client of the state of the network path and make appropriate adaptations.
 
 The information can also be utilised by a client to provide for application level client oriented metric logging to back-end systems for monitoring and analysis purposes.  Such data could be utilised in a manner not unlike that proposed in {{RFC4898}}.
 
@@ -105,7 +105,7 @@ when, and only when, they appear in all capitals, as shown here.
 
 This document uses the Augmented Backus-Naur Form (ABNF) notation of {{RFC5234}} with the list rule extension defined in {{RFC7230}}, Appendix B. It includes by reference the DIGIT rule from {{RFC5234}} and the OWS and field-name rules from {{RFC7230}}.
 
-# The Transport-Info Response Header
+# The Transport-Info HTTP Header
 
 The Transport-Info header uses the proposed Structured Header draft {{!I-D.ietf-httpbis-header-structure}}
 
@@ -113,35 +113,35 @@ The Transport-Info header uses the proposed Structured Header draft {{!I-D.ietf-
         Transport-Info = sh-list
 ~~~
 
-Each member of the parameterised list represents an entry that contains a set of metrics reported by the edge server.
+Each member of the parameterised list represents an entry that contains a set of metrics reported.
 
-The list members identify the server that inserted the value, and MUST have a type of either sh-string or sh-token. Depending on the deployment, this might be a product or service name (e.g., ExampleEdge or "Example CDN"), a hostname ("edge-1.example.com"), and IP address, or a generated string.
+The list members identify either the client or server that inserted the value, and MUST have a type of either sh-string or sh-token. Depending on the deployment, this might be a product or service name (e.g., ExampleEdge or "Example CDN"), a hostname ("edge-1.example.com"), and IP address, or a generated string.
 
-Each member of the list can also have a number of parameters that contain metrics. While all but one of these parameters are OPTIONAL, edge servers are encouraged to provide as much information as possible.
+Each member of the list can also have a number of parameters that contain metrics. While all but one of these parameters are OPTIONAL, implementations are encouraged to only provide as much information as necessary.
 
 * Exactly one parameter whose name is "ts", and whose value is an
   sh-string indicating the measurement timestamp in {{!RFC3339}} format.
 * Optionally one parameter whose name is "alpn", and whose value is an
   sh-string representing the ALPN protocol identifier {{alpn-ids}}.
 * Optionally one parameter whose name is "cc_algo", and whose value is sh-string,
-  conveying the name of congestion control algorithm used by the server for this connection.
+  conveying the name of congestion control algorithm used for this connection.
 * Optionally one parameter whose name is "cwnd", and whose value is a
-  sh-integer, conveying the size of the server's congestion window {{!RFC5681}} in packets.
+  sh-integer, conveying the size of the congestion window {{!RFC5681}} in packets.
 * Optionally one parameter whose name is "rcv_space", and whose value is a
   sh-integer, conveying the size of the receiver's window in bytes.
 * Optionally one parameter whose name is "dstport", and whose value is a
-  sh-integer, conveying the server's destination port of this connection for correlation
+  sh-integer, conveying the destination port of this connection for correlation
   of measurements between requests.
 * Optionally one parameter whose name is "mss", and whose value is a
-  sh-integer, conveying the size of the server's Maximum Segment Size in bytes.
+  sh-integer, conveying the size of the Maximum Segment Size in bytes.
 * Optionally one parameter whose name is "rtt", and whose value is an
-  sh-float, in milliseconds, indicating the server's estimate of the Round-Trip
+  sh-float, in milliseconds, indicating the estimate of the Round-Trip
   Time from its transport layer.
 * Optionally one parameter whose name is "rttvar", and whose value is an
-  sh-float, in milliseconds, indicating the server's estimate of the variation
+  sh-float, in milliseconds, indicating the estimate of the variation
   of the Round-Trip Time {{!RFC6298}} from its transport layer.
 * Optionally one parameter whose name is "send_rate", and whose value is a sh-float,
-  in kilobits per second, conveying the server's calculation of the sending rate for this connection.
+  in kilobits per second, conveying the calculation of the sending rate for this connection.
 
 
 Here is an example of a header with a single set of metrics:
@@ -177,12 +177,12 @@ If the mss is not available then it is possible to perform the calculation using
 
 This equation maybe applied for other related window based transport protocols (e.g. QUIC {{I-D.ietf-quic-transport}}) with similar information, although it may need some modification.
 
-The calculation of the send rate maybe performed at the server, or may be left to the client to calculate as and when required.
+The calculation of the send rate maybe performed by the sender of the header, or may be left to the receiver to calculate as and when required.
 
 
 # Server side behaviour
 
-With most web server deployments an origin server sits behind some form of CDN, with varying levels of fan-out to a point where an edge server is connected  on the last mile to clients. The Transport-Info header SHOULD only be inserted into an HTTP stream by the last hop edge server that is connected to clients so that it conveys information pertinent to the client's direct transport path. Also the Transport-Info MUST not be cached.
+With most web server deployments an origin server sits behind some form of CDN, with varying levels of fan-out to a point where an edge server is connected on the last mile to clients. The Transport-Info header SHOULD only be inserted into an HTTP stream by the last hop edge server that is connected to clients so that it conveys information pertinent to the client's direct transport path. Also the Transport-Info MUST not be cached.
 
 
 *RFC Editor: please remove this section before publication*
