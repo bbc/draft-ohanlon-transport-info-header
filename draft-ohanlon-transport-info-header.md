@@ -71,7 +71,7 @@ informative:
 
 --- abstract
 
-The Transport-Info header provides a mechanism to transmit network transport related information such as current delivery rate and round-trip time when it may be not accessible. This information has a wide range of uses such as client monitoring and diagnostics, or allowing a client to adapt to current network conditions.
+The Transport-Info header provides a mechanism to transmit network transport related information such as current delivery rate and round-trip time, from a server or a client. This information has a wide range of uses such as client monitoring and diagnostics, or allowing a client to adapt to current network conditions.
 
 --- note_Note_to_Readers
 
@@ -83,7 +83,7 @@ Source code and issues for this draft can be found at <https://github.com/bbc/dr
 
 # Introduction
 
-The Transport-Info header provides for relaying of transport protocol related information from either a client or server entity with the aim of informing the sender's view on the transport state. The state of a connection is dependent upon information based upon packet exchanges during the transport processes. Firstly, there is information that is common to both client and server, such as the calculated round-trip time (RTT), although it may be measured using different packets at each end. Secondly, there is state information that exists only at each endpoint, such as the size of the congestion, and receive windows. Thus certain transport state information is only available at the server which can be useful to the client, for example, to calculate the current transport rate. This information may then be used to better inform a client of the state of the network path and make appropriate adaptations.
+The Transport-Info header provides for relaying of transport protocol related information from either a server or client entity with the aim of informing the sender's view on the transport state. The state of a connection is dependent upon information based upon packet exchanges during the transport processes. Firstly, there is information that is common to both client and server, such as the calculated round-trip time (RTT), although it may be measured using different packets at each end. Secondly, there is state information that exists only at each endpoint, such as the size of the congestion, and receive windows. Thus certain transport state information is only available at the server which can be useful to the client, for example, to calculate the current transport rate. This information may then be used to better inform a client of the state of the network path and make appropriate adaptations.
 
 The information can also be utilised by a client to provide for application level client oriented metric logging to back-end systems for monitoring and analysis purposes.  Such data could be utilised in a manner not unlike that proposed in {{RFC4898}}.
 
@@ -182,14 +182,14 @@ The calculation of the send rate maybe performed by the sender of the header, or
 
 # Server side behaviour
 
-With most web server deployments an origin server sits behind some form of CDN, with varying levels of fan-out to a point where an edge server is connected on the last mile to clients. The Transport-Info header SHOULD only be inserted into an HTTP stream by the last hop edge server that is connected to clients so that it conveys information pertinent to the client's direct transport path. Also the Transport-Info MUST not be cached.
+With most web server deployments an origin server sits behind some form of CDN, with varying levels of fan-out to a point where an edge server is connected on the last mile to clients. The Transport-Info header SHOULD only be inserted into an HTTP stream by the last hop edge server that is connected to clients so that it conveys information pertinent to the client's direct transport path. The Transport-Info header MUST not be cached.
 
 
 *RFC Editor: please remove this section before publication*
 
-The provision of the Transport-Info header is possible using a number of existing server systems that already provide support for such metrics, which currently utilise operating system support for tcp_info data structure which are available on Linux and BSD systems.
+The provision of the Transport-Info header is possible using a number of existing server systems that already provide support for such metrics, which currently utilise operating system support for the `tcp_info` data structure which is available on Linux and BSD based systems.
 
-In terms of current implementations there is in-built support in Nginx/Openresty using its variables `var.tcpinfo_rtt` etc. Apache Traffic Server provides support using the TCPInfo plugin. Varnish provides access to `tcp_info` using their `vmod_tcp` module. Node.js has libraries such as `nodejs_tcpinfo` which provide support. Whilst most of the implementations do not provide access to the TCP MSS it is available via the underlying kernel tcp_info data structure so it would be fairly straightforward to provide access to such information.
+In terms of current implementations there is in-built support in Nginx/Openresty using its variables `var.tcpinfo_rtt` etc. Apache Traffic Server provides support using the TCPInfo plugin. Varnish provides access to `tcp_info` using their `vmod_tcp` module. Node.js has libraries such as `nodejs_tcpinfo` which provide support. Whilst most of the implementations do not provide access to the TCP MSS it is available via the underlying kernel `tcp_info` data structure so it would be fairly straightforward to provide access to such information.
 
 
 # Client side proxy considerations
@@ -222,3 +222,13 @@ In the case where clients are connected via a proxy then organisations may wish 
 If the header is delivered over a transport protocol whose content can be modified without detection then parties should be aware that the header could be maliciously modified to alter the metrics values which could result in the client making incorrect adaptations.
 
 --- back
+
+# Acknowledgements
+
+The authors would like to thank Craig Taylor, Lucas Pardue, Patrick McManus, and the IETF HTTP Working Group for feedback on the development of this document.
+
+# Changes
+
+## Since -00
+* Issue 3 (Is sub-second resolution appropriate?) Changed from UNIC Epoch to RFC3339 time format.
+* Issue 4 (Could this be used for both request and response?) Modified text to allow for both server and client use.
