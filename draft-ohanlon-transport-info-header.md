@@ -206,7 +206,7 @@ In terms of current implementations there is in-built support in Nginx/Openresty
 
 # Client side proxy considerations
 
-In the case where a proxy services client requests, this proxy would be configured according to local policy as to whether it passes through, modifies or drops the Transport-Info header. This decision can depend on a number of factors, including the utility of the header given local network configuration, and also whether the header might reveal unwanted information to end clients, since the Transport-Info header would relate to the connection between the edge CDN node and the proxy.
+In the case where a client is configured to utilise a proxy directly, or through the use of the HTTP CONNECT pseudo-method, this proxy would be configured according to local policy as to whether it passes through, modifies or drops the Transport-Info header. This decision can depend on a number of factors, including whether the flows are encrypted, the utility of the header given local network configuration, and also whether the header might reveal unwanted information to end clients, since the Transport-Info header would relate to the connection between the edge CDN node and the proxy. 
 
 # IANA Considerations
 
@@ -242,6 +242,7 @@ The authors would like to thank Craig Taylor, Lucas Pardue, Patrick McManus, and
 # Changes
 
 ## Since -00
+* Issue 1 (HTTP Tunnels) Added text regarding the use of HTTP CONNECT.
 * Issue 3 (Is sub-second resolution appropriate?) Changed from UNIC Epoch to RFC3339 time format.
 * Issue 4 (Could this be used for both request and response?) Modified text to allow for both server and client use.
 * Issue 10 (Provide additional use-cases) Updated motivation and added use-cases section.
