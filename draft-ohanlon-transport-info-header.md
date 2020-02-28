@@ -244,3 +244,4 @@ The authors would like to thank Craig Taylor, Lucas Pardue, Patrick McManus, and
 ## Since -00
 * Issue 3 (Is sub-second resolution appropriate?) Changed from UNIC Epoch to RFC3339 time format.
 * Issue 4 (Could this be used for both request and response?) Modified text to allow for both server and client use.
+* Issue 10 (Provide additional use-cases) Updated motivation and added use-cases section.
