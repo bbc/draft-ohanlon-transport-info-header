@@ -92,9 +92,21 @@ This approach is directly applicable to TCP but also can be utilised with other 
 
 ## Motivation
 
-This work is motivated in part by the fact that even modern web browser-based web applications are not currently able to obtain such low level information about their connections. Additionally some information is only available at the server, such as the size of the server congestion window. As a result clients often resort to application level measurements, to infer such things as the current delivery rate, but these are not always indicative of the performance of the transport layer.
+This work is motivated, in part, by the fact that even modern web browser-based web applications are not currently able to obtain such low level information about specific connections. Additionally, some information is only available at the server, such as the size of the server congestion window. As a result clients often resort to application level measurements, to infer such things as the current delivery rate. However, these are not always indicative of the performance of the transport layer, and may not be sufficiently precise due to a couple of issues; Firstly, browser based timing is limited by the granularity of the JavaScript timers, which were reduced in the light of timing based side-channel attacks, although due to new mitigations such timer limits are currently of the order 5us-1ms. These limits can be an issue for higher rate connections and/or those with smaller transactions. Secondly, with flows where the content-length is unknown, such as with chunked transfer encoding, it is currently difficult to correctly measure the bandwidth in the browser as the even the fetch/streams APIs do not provide for sufficient information.
 
-There exist W3C specifications such as the Network Information API {{network-info-api}}, which contains an attribute named "downlink" that purports to provide measurement of effective bandwidth "across recently active connections". However, in practice the downlink measurement appears to be a very rough estimate which is of little use for informing an application of dynamic network conditions. Furthermore, it currently has limited browser support.
+There exist W3C specifications such as the Network Information API {{network-info-api}}, which provides estimates of metrics, including downlink rate and RTT, that are measured "across recently active connections", but are platform and browser dependent, with limited cross-browser support. In practice the downlink measurement is is generally of low accuracy and of little use for informing an application of dynamic network conditions, and the RTT measurement is also of low accuracy. However, it is implemented in Chrome and the utilisation of the API is now seen in a large proportion of websites, mainly due to adoption of the API by widely used libraries.
+
+## Use Cases
+
+The header can be used to provide sender specific transport information that can inform a range of functions:
+
+* Assist or drive the media quality selection algorithms for streaming media.
+* Inform initial rate selection.
+* Provide better bandwidth information for shorter requests (e.g. gRPC, audio) which are harder to measure.
+    * Could be used to drive scheduling of different flows in systems such as Traefik. 
+* The RTT values are useful for informing the operation of latency sensitive applications. 
+* The RTTVAR could be used to provide an estimate of ‘reliability’ of rtt and bandwidth estimates.
+* Inform client/browser media/data caching strategies. 
 
 ## Notational Conventions
 
