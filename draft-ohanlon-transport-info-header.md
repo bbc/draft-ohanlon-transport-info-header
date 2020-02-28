@@ -36,6 +36,7 @@ informative:
     RFC4898:
     RFC5234:
     RFC7230:
+    RFC7540:
     I-D.ietf-quic-transport:
     network-info-api:
         title: "Network Information API"
@@ -127,7 +128,7 @@ The Transport-Info header uses the proposed Structured Header draft {{!I-D.ietf-
 
 Each member of the parameterised list represents an entry that contains a set of metrics reported.
 
-The list members identify either the client or server that inserted the value, and MUST have a type of either sh-string or sh-token. Depending on the deployment, this might be a product or service name (e.g., ExampleEdge or "Example CDN"), a hostname ("edge-1.example.com"), and IP address, or a generated string.
+The list members identify either the server or client that inserted the value, and MUST have a type of either sh-string or sh-token. Depending on the deployment, this might be a product or service name (e.g., ExampleEdge or "Example CDN"), a hostname ("edge-1.example.com"), and IP address, or a generated string.
 
 Each member of the list can also have a number of parameters that contain metrics. While all but one of these parameters are OPTIONAL, implementations are encouraged to only provide as much information as necessary.
 
@@ -159,24 +160,26 @@ Each member of the list can also have a number of parameters that contain metric
 Here is an example of a header with a single set of metrics:
 
 ~~~ example
-Transport-Info = ExampleEdge; ts="2019-08-30T14:56:08.069Z"; alpn="h2"; cwnd=24;
-                    rtt=250; mss=1460; rttvar=10; dstport=12345
+Transport-Info = ExampleEdge; ts="2019-08-30T14:56:08.069Z";
+                    alpn="h2"; send_rate="5100"
 ~~~
 
 Whilst it is understood that such metrics may only provide an instantaneous view on the transport state, the Transport-Info header is designed to allow for delivery of multiple timestamped entries in a single header.
 
-Here is an example of header with multiple entries, utilising the structured header inner-list type:
+Here is an example of the header with multiple entries, utilising the structured header inner-list type:
 
 ~~~ example
-Transport-Info = "edge-1.example.com"; ts="2019-08-30T14:56:08Z"; cwnd=24;
-                    rtt=250; mss=1452; rttvar=10; dstport=48065,
-                 "edge-1.example.com"; ts="2019-08-30T14:57:08Z"; cwnd=23;
-                    rtt=255; mss=1452; rttvar=12; dstport=48065
+Transport-Info = "edge-1.example.com"; ts="2019-08-30T14:56:08Z";
+                    cwnd=24; rtt=50; mss=1452; rttvar=10; dstport=8065,
+                 "edge-1.example.com"; ts="2019-08-30T14:57:08Z";
+                    cwnd=23; rtt=55; mss=1452; rttvar=12; dstport=8065
 ~~~
 
-If the end points support HTTP/2, and later, another technique to increase temporal coverage for an ongoing session is for the client to issue additional HEAD or OPTION * requests for a resource at the same origin. This works with HTTP/2 and later as all requests to the same origin utilise one TCP or QUIC connection. Whilst the HTTP priorities can affect the allocation of capacity between streams, one use-case for the Transport-Info header is for information regarding sustained flows, such as media delivery, which tend consist of a known limited number of flows to the same origin so the priorities would not affect the calculations.
+If the end points support HTTP/2, and later, another technique to increase temporal coverage for an ongoing session is for the client to issue additional HEAD requests for the resource at the same origin. This works with HTTP/2, and later, as all requests to the same origin usually utilise one TCP or QUIC connection. Whilst the HTTP priorities can affect the allocation of capacity between streams the header will still provide an estimate of the maximum available capacity. Likewise, in some cases with HTTP/2, and later, there may be multiple flows traversing the same transport connection to different origins if connection reuse (Section 9.1.1 of {{RFC7540}}) is utilised, which could have a similar effect to HTTP priorities, but may have privacy implications which are addressed in the privacy section.
 
 ## Utilisation of Transport-Info header metrics
+
+The metrics may be used directly to inform processes on that parse the header. The calculation of the send rate maybe performed by the sender of the header and included in the send_rate parameter, or the receiver may calculate it as described below. The decision may depend upon a variety of factors including the privacy of transporting any required parameters.
 
 In the case of TCP, calculation of the transport transmission rate is possible using the cwnd and rtt, and knowledge of the mss. The equation being as follows:
 
@@ -188,9 +191,6 @@ In the case of TCP, calculation of the transport transmission rate is possible u
 If the mss is not available then it is possible to perform the calculation using an estimate of the mss, or a common value such as 1460 for IPv4. It understood there can be some variation for different network and tunnelled paths (e.g. 1452 for IPv4 PPPoE) as can been seen in recent studies {{exploring-mtu}}, although the large proportion of mss values fall within a range 1220-1460. The send_window is preferably calculated using a minimum of the cwnd and rcv_space, but if the rcv_space is not available it may be approximated by just using the cwnd.
 
 This equation maybe applied for other related window based transport protocols (e.g. QUIC {{I-D.ietf-quic-transport}}) with similar information, although it may need some modification.
-
-The calculation of the send rate maybe performed by the sender of the header, or may be left to the receiver to calculate as and when required.
-
 
 # Server side behaviour
 
