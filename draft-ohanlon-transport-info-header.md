@@ -174,7 +174,7 @@ Here is an example of a header with a single set of metrics:
 
 ~~~ example
 Transport-Info = ExampleEdge; ts="2019-08-30T14:56:08.069Z";
-                    alpn="h2"; send_rate="5100"
+                  alpn="h2"; send_rate="5100"
 ~~~
 
 Whilst it is understood that such metrics may only provide an instantaneous view on the transport state, the Transport-Info header is designed to allow for delivery of multiple timestamped entries in a single header.
@@ -183,9 +183,9 @@ Here is an example of the header with multiple entries, utilising the structured
 
 ~~~ example
 Transport-Info = "edge-1.example.com"; ts="2019-08-30T14:56:08Z";
-                    cwnd=24; rtt=50; mss=1452; rttvar=10; dstport=8065,
+                  cwnd=24; rtt=50; mss=1452; rttvar=10; dstport=8065,
                  "edge-1.example.com"; ts="2019-08-30T14:57:08Z";
-                    cwnd=23; rtt=55; mss=1452; rttvar=12; dstport=8065
+                  cwnd=23; rtt=55; mss=1452; rttvar=12; dstport=8065
 ~~~
 
 If the end points support HTTP/2, and later, another technique to increase temporal coverage for an ongoing session is for the client to issue additional HEAD requests for the resource at the same origin. This works with HTTP/2, and later, as all requests to the same origin usually utilise one TCP or QUIC connection. Whilst the HTTP priorities can affect the allocation of capacity between streams the header will still provide an estimate of the maximum available capacity. Likewise, in some cases with HTTP/2, and later, there may be multiple flows traversing the same transport connection to different origins if connection reuse (Section 9.1.1 of {{RFC7540}}) is utilised, which could have a similar effect to HTTP priorities, but may have privacy implications which are addressed in the privacy section.
