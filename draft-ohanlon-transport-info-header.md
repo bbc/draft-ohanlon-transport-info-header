@@ -236,9 +236,19 @@ This specification registers the following entry in the Permanent Message Header
 
 # Security Considerations
 
-The content of the Transport-Info is largely available through other techniques such as packet capture so it should not lead to security issues. Certain metrics, such as the cwnd, may be considered as less visible but since they are part of the transport layer they can inferred. Any metrics that may be considered private should not be sent in the header, or sent only over an encrypted connection.
+## Privacy Considerations
 
-In the case where clients are connected via a proxy then organisations may wish modify or drop the header if they consider the it might reveal unwanted information to end clients.
+The Transport-Info header provides information about a senders view on its network bandwidth and latency to its receiver, which is usually the first hop between a user agent and an edge server. This information may potentially be abused for such purposes as fingerprinting a user based on particular network metrics or a time series thereof. In some situations it might also be possible to infer location of users. This may also apply in the case where multiple users, or user identities, share a connection through the use of connection reuse mechanisms or otherwise.
+
+However, these issues are not new and such information is already being shared by some servers and clients to arbitrary levels of accuracy. Furthermore, there are a number of other ways an attacker can obtain such information. In the client side, on browser, there exist a number JavaScript based techniques to measure the bandwidth and latency through existing network APIs such as the Network Information, the Resource Timing, and WebRTC. On the server side, or a non-browser client, there is no limit to the techniques that may be applied to obtain information about network flows.
+
+## Information control
+
+Whilst such information may be available through other mechanisms we recommend that implementers minimise any potential privacy issues through the application of the following approaches:
+- The principle of data minimisation should be applied to any use of the header such that only information required for the purposes of the application be shared. 
+- That any fields deemed sensitive should be apply an appropriate level of quantisation and noise to the values to degree that provides privacy whilst allowing for actual utility of the values.
+- Any metrics that may be considered private should not be sent in the header, or should appropriately protected.
+- Metrics should be sent only over an encrypted connection.
 
 If the header is delivered over a transport protocol whose content can be modified without detection then parties should be aware that the header could be maliciously modified to alter the metrics values which could result in the client making incorrect adaptations.
 
@@ -251,7 +261,8 @@ The authors would like to thank Craig Taylor, Lucas Pardue, Patrick McManus, and
 # Changes
 
 ## Since -00
-* Issue 1 (HTTP Tunnels) Added text regarding the use of HTTP CONNECT.
-* Issue 3 (Is sub-second resolution appropriate?) Changed from UNIC Epoch to RFC3339 time format.
-* Issue 4 (Could this be used for both request and response?) Modified text to allow for both server and client use.
-* Issue 10 (Provide additional use-cases) Updated motivation and added use-cases section.
+* Issue 1 (HTTP Tunnels): Added text regarding the use of HTTP CONNECT.
+* Issue 3 (Is sub-second resolution appropriate?): Changed from UNIC Epoch to RFC3339 time format.
+* Issue 4 (Could this be used for both request and response?): Updated text to describe both server and client use, and their implications.
+* Issue 5 (Privacy Implications): Added new Privacy Considerations section and updated security section
+* Issue 10 (Provide additional use-cases): Updated motivation and added use-cases section.
