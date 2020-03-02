@@ -200,6 +200,8 @@ This equation maybe applied for other related window based transport protocols (
 
 With most web server deployments an origin server sits behind some form of CDN, with varying levels of fan-out to a point where an edge server is connected on the last mile to clients. The Transport-Info header SHOULD only be inserted into an HTTP stream by the last hop edge server that is connected to clients so that it conveys information pertinent to the client's direct transport path. The Transport-Info header MUST not be cached.
 
+With respect to use in CORS enabled environments access to the header will be subject to restrictions in cross domain requests, which may be controlled through the inclusion of the Transport-Info header in the Access-Control-Request-Headers header.
+
 The use of the header is expected to comply with data minimisation approaches where servers only send the necessary information on relevant flows.
 
 
@@ -265,4 +267,5 @@ The authors would like to thank Craig Taylor, Lucas Pardue, Patrick McManus, and
 * Issue 3 (Is sub-second resolution appropriate?): Changed from UNIC Epoch to RFC3339 time format.
 * Issue 4 (Could this be used for both request and response?): Updated text to describe both server and client use, and their implications.
 * Issue 5 (Privacy Implications): Added new Privacy Considerations section and updated security section
+* Issue 9 (CORS considerations): Added text to address CORS usage.
 * Issue 10 (Provide additional use-cases): Updated motivation and added use-cases section.
