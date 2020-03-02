@@ -97,6 +97,8 @@ This work is motivated, in part, by the fact that even modern web browser-based 
 
 There exist W3C specifications such as the Network Information API {{network-info-api}}, which provides estimates of metrics, including downlink rate and RTT, that are measured "across recently active connections", but are platform and browser dependent, with limited cross-browser support. In practice the downlink measurement is is generally of low accuracy and of little use for informing an application of dynamic network conditions, and the RTT measurement is also of low accuracy. However, it is implemented in Chrome and the utilisation of the API is now seen in a large proportion of websites, mainly due to adoption of the API by widely used libraries.
 
+This information is already being sent by servers and clients so this document specifies a standard way for entities to encode and transport such information.
+
 ## Use Cases
 
 The header can be used to provide sender specific transport information that can inform a range of functions:
@@ -108,6 +110,7 @@ The header can be used to provide sender specific transport information that can
 * The RTT values are useful for informing the operation of latency sensitive applications. 
 * The RTTVAR could be used to provide an estimate of ‘reliability’ of rtt and bandwidth estimates.
 * Inform client/browser media/data caching strategies. 
+* Use by intermediate nodes for traffic analytics and control.
 
 ## Notational Conventions
 
