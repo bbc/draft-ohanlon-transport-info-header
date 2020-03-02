@@ -39,6 +39,15 @@ informative:
     RFC7540:
     I.D.ietf-httpbis-client-hints:
     I-D.ietf-quic-transport:
+    cors:
+        title: "Cross-Origin Resource Sharing"
+        target: http://www.w3.org/TR/2014/REC-cors-20140116/
+        author:
+            name: Anne van Kesteren
+            ins: A. van Kesteren
+            org: annevk.nl
+        date: January 2014
+        seriesinfo: W3C
     network-info-api:
         title: "Network Information API"
         target: http://wicg.github.io/netinfo/
@@ -200,7 +209,7 @@ This equation maybe applied for other related window based transport protocols (
 
 With most web server deployments an origin server sits behind some form of CDN, with varying levels of fan-out to a point where an edge server is connected on the last mile to clients. The Transport-Info header SHOULD only be inserted into an HTTP stream by the last hop edge server that is connected to clients so that it conveys information pertinent to the client's direct transport path. The Transport-Info header MUST not be cached.
 
-With respect to use in CORS enabled environments access to the header will be subject to restrictions in cross domain requests, which may be controlled through the inclusion of the Transport-Info header in the Access-Control-Request-Headers header.
+With respect to use in CORS {{cors}} enabled environments access to the header will be subject to restrictions in cross domain requests, which may be controlled through the inclusion of the Transport-Info header in the Access-Control-Request-Headers header.
 
 The use of the header is expected to comply with data minimisation approaches where servers only send the necessary information on relevant flows.
 
