@@ -221,17 +221,17 @@ In the case where a client is configured to utilise a proxy directly, or through
 
 This specification registers the following entry in the Permanent Message Header Field Names registry established by {{!RFC3864}}:
 
-   o  Header field name: Transport-Info
+- Header field name: Transport-Info
 
-   o  Applicable protocol: http
+- Applicable protocol: http
 
-   o  Status: standard
+- Status: standard
 
-   o  Author/Change Controller: IETF
+- Author/Change Controller: IETF
 
-   o  Specification document(s): \[this document\]
+- Specification document(s): \[this document\]
 
-   o  Related information:
+- Related information:
 
 
 # Security Considerations
