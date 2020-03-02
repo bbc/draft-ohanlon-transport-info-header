@@ -37,6 +37,7 @@ informative:
     RFC5234:
     RFC7230:
     RFC7540:
+    I.D.ietf-httpbis-client-hints:
     I-D.ietf-quic-transport:
     network-info-api:
         title: "Network Information API"
@@ -195,9 +196,11 @@ If the mss is not available then it is possible to perform the calculation using
 
 This equation maybe applied for other related window based transport protocols (e.g. QUIC {{I-D.ietf-quic-transport}}) with similar information, although it may need some modification.
 
-# Server side behaviour
+# Server based behaviour
 
 With most web server deployments an origin server sits behind some form of CDN, with varying levels of fan-out to a point where an edge server is connected on the last mile to clients. The Transport-Info header SHOULD only be inserted into an HTTP stream by the last hop edge server that is connected to clients so that it conveys information pertinent to the client's direct transport path. The Transport-Info header MUST not be cached.
+
+The use of the header is expected to comply with data minimisation approaches where servers only send the necessary information on relevant flows.
 
 
 *RFC Editor: please remove this section before publication*
@@ -206,10 +209,13 @@ The provision of the Transport-Info header is possible using a number of existin
 
 In terms of current implementations there is in-built support in Nginx/Openresty using its variables `var.tcpinfo_rtt` etc. Apache Traffic Server provides support using the TCPInfo plugin. Varnish provides access to `tcp_info` using their `vmod_tcp` module. Node.js has libraries such as `nodejs_tcpinfo` which provide support. Whilst most of the implementations do not provide access to the TCP MSS it is available via the underlying kernel `tcp_info` data structure so it would be fairly straightforward to provide access to such information.
 
+# Client based behaviour
 
-# Client side proxy considerations
+The use of the header by a client is envisaged as a less common use-case since such information is generally less readily available on clients, and its general use might have privacy implications, although servers will be aware of most transport state already. We propose that use of the header could be controlled through the use of the Allow-CH header {{!I-D.ietf-httpbis-client-hints}}. The header can enable the server to make better informed decisions based upon client based transport information. In the case of non-browser clients which have access to  transport information directly through operating system interfaces, this information can be relayed using the header. Whilst with browser based clients such information could be obtained through the Network Information API to obtain to provide to a server.
 
-In the case where a client is configured to utilise a proxy directly, or through the use of the HTTP CONNECT pseudo-method, this proxy would be configured according to local policy as to whether it passes through, modifies or drops the Transport-Info header. This decision can depend on a number of factors, including whether the flows are encrypted, the utility of the header given local network configuration, and also whether the header might reveal unwanted information to end clients, since the Transport-Info header would relate to the connection between the edge CDN node and the proxy. 
+## Client side proxy considerations
+
+In the case where a client is configured to utilise a proxy directly, or through the use of the HTTP CONNECT pseudo-method, this proxy would be configured according to local policy as to whether it passes through, modifies, or drops the Transport-Info header. This decision can depend on a number of factors, including whether the flows are encrypted, the utility of the header given local network configuration, and also whether the header might reveal unwanted information to end clients, since the Transport-Info header would relate to the connection between the edge CDN node and the proxy.
 
 # IANA Considerations
 
