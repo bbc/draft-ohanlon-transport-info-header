@@ -256,6 +256,7 @@ However, these issues are not new and such information is already being shared b
 ## Information control
 
 Whilst such information may be available through other mechanisms we recommend that implementers minimise any potential privacy issues through the application of the following approaches:
+
 - The principle of data minimisation should be applied to any use of the header such that only information required for the purposes of the application be shared. 
 - Any metrics deemed sensitive should apply an appropriate level of quantisation and noise to the values to a level that provides privacy whilst allowing for actual utility of the values.
 - Consideration of limits to the temporal update frequency of the metric values.
