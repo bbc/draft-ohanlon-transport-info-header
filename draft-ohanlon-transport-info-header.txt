@@ -5,20 +5,19 @@
 HTTP                                                         P. O'Hanlon
 Internet-Draft                                              J. Gruessing
 Intended status: Standards Track        British Broadcasting Corporation
-Expires: May 21, 2020                                  November 18, 2019
+Expires: September 4, 2020                                 March 3, 2020
 
 
-                   The Transport-Info Response Header
+                     The Transport-Info HTTP Header
                draft-ohanlon-transport-info-header-latest
 
 Abstract
 
-   The Transport-Info header provides a mechanism to inform a client of
-   the last-mile server's view of the network transport related
-   information such as current delivery rate and round-trip time.  This
-   information has a wide range of uses such as client monitoring and
-   diagnostics, or allowing a client to adapt to current network
-   conditions.
+   The Transport-Info header provides a mechanism to transmit network
+   transport related information such as current delivery rate and
+   round-trip time, from a server or a client.  This information has a
+   wide range of uses such as client monitoring and diagnostics, or
+   allowing a client to adapt to current network conditions.
 
 Note to Readers
 
@@ -42,24 +41,23 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on May 21, 2020.
+   This Internet-Draft will expire on September 4, 2020.
 
 Copyright Notice
 
-   Copyright (c) 2019 IETF Trust and the persons identified as the
+   Copyright (c) 2020 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
-
-
-
-
-
-O'Hanlon & Gruessing      Expires May 21, 2020                  [Page 1]
-
-Internet-Draft            Transport-Info Header            November 2019
-
 
    This document is subject to BCP 78 and the IETF Trust's Legal
    Provisions Relating to IETF Documents
+
+
+
+O'Hanlon & Gruessing    Expires September 4, 2020               [Page 1]
+
+Internet-Draft            Transport-Info Header               March 2020
+
+
    (https://trustee.ietf.org/license-info) in effect on the date of
    publication of this document.  Please review these documents
    carefully, as they describe your rights and restrictions with respect
@@ -72,48 +70,52 @@ Table of Contents
 
    1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   2
      1.1.  Motivation  . . . . . . . . . . . . . . . . . . . . . . .   3
-     1.2.  Notational Conventions  . . . . . . . . . . . . . . . . .   3
-   2.  The Transport-Info Response Header  . . . . . . . . . . . . .   3
-     2.1.  Utilisation of Transport-Info header metrics  . . . . . .   5
-   3.  Server side behaviour . . . . . . . . . . . . . . . . . . . .   6
-   4.  Client side proxy considerations  . . . . . . . . . . . . . .   6
-   5.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   6
-   6.  Security Considerations . . . . . . . . . . . . . . . . . . .   7
-   7.  References  . . . . . . . . . . . . . . . . . . . . . . . . .   7
-     7.1.  Normative References  . . . . . . . . . . . . . . . . . .   7
-     7.2.  Informative References  . . . . . . . . . . . . . . . . .   8
-     7.3.  URIs  . . . . . . . . . . . . . . . . . . . . . . . . . .   9
-   Appendix A.  Acknowledgements . . . . . . . . . . . . . . . . . .   9
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .   9
+     1.2.  Use Cases . . . . . . . . . . . . . . . . . . . . . . . .   4
+     1.3.  Notational Conventions  . . . . . . . . . . . . . . . . .   4
+   2.  The Transport-Info HTTP Header  . . . . . . . . . . . . . . .   4
+     2.1.  Utilisation of Transport-Info header metrics  . . . . . .   6
+   3.  Server based behaviour  . . . . . . . . . . . . . . . . . . .   7
+   4.  Client based behaviour  . . . . . . . . . . . . . . . . . . .   7
+     4.1.  Client side proxy considerations  . . . . . . . . . . . .   8
+   5.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   8
+   6.  Security Considerations . . . . . . . . . . . . . . . . . . .   8
+     6.1.  Privacy Considerations  . . . . . . . . . . . . . . . . .   8
+     6.2.  Information control . . . . . . . . . . . . . . . . . . .   9
+   7.  References  . . . . . . . . . . . . . . . . . . . . . . . . .   9
+     7.1.  Normative References  . . . . . . . . . . . . . . . . . .   9
+     7.2.  Informative References  . . . . . . . . . . . . . . . . .  10
+     7.3.  URIs  . . . . . . . . . . . . . . . . . . . . . . . . . .  11
+   Appendix A.  Acknowledgements . . . . . . . . . . . . . . . . . .  11
+   Appendix B.  Changes  . . . . . . . . . . . . . . . . . . . . . .  11
+     B.1.  Since -00 . . . . . . . . . . . . . . . . . . . . . . . .  11
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  12
 
 1.  Introduction
 
    The Transport-Info header provides for relaying of transport protocol
-   related information from a last-mile edge server entity to a client
-   with the aim of informing the client of the server's view on the
-   transport state.  The state of a connection is dependent upon
-   information based upon packet exchanges during the transport
-   processes.  Firstly, there is information that is common to both
-   client and server, such as the calculated round-trip time (RTT),
-   although it may be measured using different packets at each end.
-   Secondly, there is state information that exists only at each
-   endpoint, such as the size of the congestion, and receive windows.
-   Thus certain transport state information is only available at the
-   server which can be useful to the client, for example, to calculate
-   the current transport rate.  This information may then be used to
-   better inform a client of the state of the network path and make
-   appropriate adaptations.
+   related information from either a server or client entity with the
+   aim of informing the sender's view on the transport state.  The state
+   of a connection is dependent upon information based upon packet
+   exchanges during the transport processes.  Firstly, there is
+   information that is common to both client and server, such as the
+   calculated round-trip time (RTT), although it may be measured using
+   different packets at each end.  Secondly, there is state information
+   that exists only at each endpoint, such as the size of the
+   congestion, and receive windows.  Thus certain transport state
+   information is only available at the server which can be useful to
+   the client, for example, to calculate the current transport rate.
+   This information may then be used to better inform a client of the
+   state of the network path and make appropriate adaptations.
+
+
+
+O'Hanlon & Gruessing    Expires September 4, 2020               [Page 2]
+
+Internet-Draft            Transport-Info Header               March 2020
+
 
    The information can also be utilised by a client to provide for
    application level client oriented metric logging to back-end systems
-
-
-
-O'Hanlon & Gruessing      Expires May 21, 2020                  [Page 2]
-
-Internet-Draft            Transport-Info Header            November 2019
-
-
    for monitoring and analysis purposes.  Such data could be utilised in
    a manner not unlike that proposed in [RFC4898].
 
@@ -123,24 +125,72 @@ Internet-Draft            Transport-Info Header            November 2019
 
 1.1.  Motivation
 
-   This work is motivated in part by the fact that even in modern web
-   browsers web applications are not currently able to obtain such low
-   level information about their connections.  Additionally some
+   This work is motivated, in part, by the fact that even modern web
+   browser-based web applications are not currently able to obtain such
+   low level information about specific connections.  Additionally, some
    information is only available at the server, such as the size of the
    server congestion window.  As a result clients often resort to
    application level measurements, to infer such things as the current
-   delivery rate, but these are not always indicative of the performance
-   of the transport layer.
+   delivery rate.  However, these are not always indicative of the
+   performance of the transport layer, and may not be sufficiently
+   precise due to a couple of issues; Firstly, browser based timing is
+   limited by the granularity of the JavaScript timers, which were
+   reduced in the light of timing based side-channel attacks, although
+   due to new mitigations such timer limits are currently of the order
+   5us-1ms.  These limits can be an issue for higher rate connections
+   and/or those with smaller transactions.  Secondly, with flows where
+   the content-length is unknown, such as with chunked transfer
+   encoding, it is currently difficult to correctly measure the
+   bandwidth in the browser as the even the fetch/streams APIs do not
+   provide for sufficient information.
 
    There exist W3C specifications such as the Network Information API
-   [network-info-api], which contains an attribute named "downlink" that
-   purports to provide measurement of effective bandwidth "across
-   recently active connections".  However, in practice the downlink
-   measurement appears to be a very rough estimate which is of little
-   use for informing an application of dynamic network conditions.
-   Furthermore, it currently has limited browser support.
+   [network-info-api], which provides estimates of metrics, including
+   downlink rate and RTT, that are measured "across recently active
+   connections", but are platform and browser dependent, with limited
+   cross-browser support.  In practice the downlink measurement is is
+   generally of low accuracy and of little use for informing an
+   application of dynamic network conditions, and the RTT measurement is
+   also of low accuracy.  However, it is implemented in Chrome and the
+   utilisation of the API is now seen in a large proportion of websites,
+   mainly due to adoption of the API by widely used libraries.
 
-1.2.  Notational Conventions
+   This information is already being sent by servers and clients so this
+   document specifies a standard way for entities to encode and
+   transport such information.
+
+
+
+
+
+
+
+O'Hanlon & Gruessing    Expires September 4, 2020               [Page 3]
+
+Internet-Draft            Transport-Info Header               March 2020
+
+
+1.2.  Use Cases
+
+   The header can be used to provide sender specific transport
+   information that can inform a range of functions:
+
+   o  Assist or drive the media quality selection algorithms for
+      streaming media.
+   o  Inform initial rate selection.
+   o  Provide better bandwidth information for shorter requests (e.g.
+      gRPC, audio) which are harder to measure.
+
+      *  Could be used to drive scheduling of different flows in systems
+         such as Traefik.
+   o  The RTT values are useful for informing the operation of latency
+      sensitive applications.
+   o  The RTTVAR could be used to provide an estimate of 'reliability'
+      of rtt and bandwidth estimates.
+   o  Inform client/browser media/data caching strategies.
+   o  Use by intermediate nodes for traffic analytics and control.
+
+1.3.  Notational Conventions
 
    The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
    "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
@@ -153,7 +203,7 @@ Internet-Draft            Transport-Info Header            November 2019
    Appendix B.  It includes by reference the DIGIT rule from [RFC5234]
    and the OWS and field-name rules from [RFC7230].
 
-2.  The Transport-Info Response Header
+2.  The Transport-Info HTTP Header
 
    The Transport-Info header uses the proposed Structured Header draft
    [I-D.ietf-httpbis-header-structure]
@@ -161,99 +211,104 @@ Internet-Draft            Transport-Info Header            November 2019
            Transport-Info = sh-list
 
    Each member of the parameterised list represents an entry that
-   contains a set of metrics reported by the edge server.
+   contains a set of metrics reported.
+
+   The list members identify either the server or client that inserted
+   the value, and MUST have a type of either sh-string or sh-token.
+   Depending on the deployment, this might be a product or service name
+   (e.g., ExampleEdge or "Example CDN"), a hostname ("edge-
+   1.example.com"), and IP address, or a generated string.
 
 
 
-O'Hanlon & Gruessing      Expires May 21, 2020                  [Page 3]
+O'Hanlon & Gruessing    Expires September 4, 2020               [Page 4]
 
-Internet-Draft            Transport-Info Header            November 2019
+Internet-Draft            Transport-Info Header               March 2020
 
-
-   The list members identify the server that inserted the value, and
-   MUST have a type of either sh-string or sh-token.  Depending on the
-   deployment, this might be a product or service name (e.g.,
-   ExampleEdge or "Example CDN"), a hostname ("edge-1.example.com"), and
-   IP address, or a generated string.
 
    Each member of the list can also have a number of parameters that
    contain metrics.  While all but one of these parameters are OPTIONAL,
-   edge servers are encouraged to provide as much information as
-   possible.  This list is non-exhaustive; additional metrics can be
-   included by implementations but MUST NOT override the definitions of
-   the metrics below.
+   implementations are encouraged to only provide as much information as
+   necessary.
 
    o  Exactly one parameter whose name is "ts", and whose value is an
-      sh-float indicating the measurement timestamp in seconds since
-      UNIX epoch.
+      sh-string indicating the measurement timestamp in [RFC3339]
+      format.
    o  Optionally one parameter whose name is "alpn", and whose value is
       an sh-string representing the ALPN protocol identifier [alpn-ids].
    o  Optionally one parameter whose name is "cc_algo", and whose value
       is sh-string, conveying the name of congestion control algorithm
-      used by the server for this connection.
+      used for this connection.
    o  Optionally one parameter whose name is "cwnd", and whose value is
-      a sh-integer, conveying the size of the server's congestion window
+      a sh-integer, conveying the size of the congestion window
       [RFC5681] in packets.
    o  Optionally one parameter whose name is "rcv_space", and whose
       value is a sh-integer, conveying the size of the receiver's window
       in bytes.
    o  Optionally one parameter whose name is "dstport", and whose value
-      is a sh-integer, conveying the server's destination port of this
-      connection for correlation of measurements between requests.
+      is a sh-integer, conveying the destination port of this connection
+      for correlation of measurements between requests.
    o  Optionally one parameter whose name is "mss", and whose value is a
-      sh-integer, conveying the size of the server's Maximum Segment
-      Size in bytes [RFC6691].
+      sh-integer, conveying the size of the Maximum Segment Size in
+      bytes.
    o  Optionally one parameter whose name is "rtt", and whose value is
-      an sh-float, in milliseconds, indicating the server's estimate of
-      the Round-Trip Time from its transport layer [RFC6298]
-      [I-D.ietf-quic-recovery].
+      an sh-float, in milliseconds, indicating the estimate of the
+      Round-Trip Time from its transport layer.
    o  Optionally one parameter whose name is "rttvar", and whose value
-      is an sh-float, in milliseconds, indicating the server's estimate
-      of the variation of the Round-Trip Time [RFC6298] from its
-      transport layer.
+      is an sh-float, in milliseconds, indicating the estimate of the
+      variation of the Round-Trip Time [RFC6298] from its transport
+      layer.
    o  Optionally one parameter whose name is "send_rate", and whose
       value is a sh-float, in kilobits per second, conveying the
-      server's calculation of the sending rate for this connection.
+      calculation of the sending rate for this connection.
 
    Here is an example of a header with a single set of metrics:
 
-
-
-
-
-O'Hanlon & Gruessing      Expires May 21, 2020                  [Page 4]
-
-Internet-Draft            Transport-Info Header            November 2019
-
-
-   Transport-Info = ExampleEdge; ts=1567176968.69; alpn="h2"; cwnd=24;
-                       rtt=250; mss=1460; rttvar=10; dstport=12345
+   Transport-Info = ExampleEdge; ts="2019-08-30T14:56:08.069Z";
+                     alpn="h2"; send_rate="5100"
 
    Whilst it is understood that such metrics may only provide an
    instantaneous view on the transport state, the Transport-Info header
    is designed to allow for delivery of multiple timestamped entries in
    a single header.
 
-   Here is an example of header with multiple entries, utilising the
+   Here is an example of the header with multiple entries, utilising the
    structured header inner-list type:
 
-Transport-Info = "edge-1.example.com"; ts=1567176968.69; alpn="h2"; cwnd=24;
-                    rtt=250; mss=1452; rttvar=10; dstport=123451,
-                 "edge-1.example.com"; ts=1567176969.97; alpn="h2"; cwnd=23;
-                    rtt=255; mss=1452; rttvar=12; dstport=123451
+
+
+O'Hanlon & Gruessing    Expires September 4, 2020               [Page 5]
+
+Internet-Draft            Transport-Info Header               March 2020
+
+
+   Transport-Info = "edge-1.example.com"; ts="2019-08-30T14:56:08Z";
+                     cwnd=24; rtt=50; mss=1452; rttvar=10; dstport=8065,
+                    "edge-1.example.com"; ts="2019-08-30T14:57:08Z";
+                     cwnd=23; rtt=55; mss=1452; rttvar=12; dstport=8065
 
    If the end points support HTTP/2, and later, another technique to
    increase temporal coverage for an ongoing session is for the client
-   to issue additional HEAD or OPTION * requests for a resource at the
-   same origin.  This works with HTTP/2 and later as all requests to the
-   same origin utilise one TCP or QUIC connection.  Whilst the HTTP
-   priorities can affect the allocation of capacity between streams, one
-   use-case for the Transport-Info header is for information regarding
-   sustained flows, such as media delivery, which tend consist of a
-   known limited number of flows to the same origin so the priorities
-   would not affect the calculations.
+   to issue additional HEAD requests for the resource at the same
+   origin.  This works with HTTP/2, and later, as all requests to the
+   same origin usually utilise one TCP or QUIC connection.  Whilst the
+   HTTP priorities can affect the allocation of capacity between streams
+   the header will still provide an estimate of the maximum available
+   capacity.  Likewise, in some cases with HTTP/2, and later, there may
+   be multiple flows traversing the same transport connection to
+   different origins if connection reuse (Section 9.1.1 of [RFC7540]) is
+   utilised, which could have a similar effect to HTTP priorities, but
+   may have privacy implications which are addressed in the privacy
+   section.
 
 2.1.  Utilisation of Transport-Info header metrics
+
+   The metrics may be used directly to inform processes on that parse
+   the header.  The calculation of the send rate maybe performed by the
+   sender of the header and included in the send_rate parameter, or the
+   receiver may calculate it as described below.  The decision may
+   depend upon a variety of factors including the privacy of
+   transporting any required parameters.
 
    In the case of TCP, calculation of the transport transmission rate is
    possible using the cwnd and rtt, and knowledge of the mss.  The
@@ -277,82 +332,145 @@ Transport-Info = "edge-1.example.com"; ts=1567176968.69; alpn="h2"; cwnd=24;
 
 
 
-O'Hanlon & Gruessing      Expires May 21, 2020                  [Page 5]
+
+O'Hanlon & Gruessing    Expires September 4, 2020               [Page 6]
 
-Internet-Draft            Transport-Info Header            November 2019
+Internet-Draft            Transport-Info Header               March 2020
 
 
    This equation maybe applied for other related window based transport
    protocols (e.g.  QUIC [I-D.ietf-quic-transport]) with similar
    information, although it may need some modification.
 
-   The calculation of the send rate maybe performed at the server, or
-   may be left to the client to calculate as and when required.
-
-3.  Server side behaviour
+3.  Server based behaviour
 
    With most web server deployments an origin server sits behind some
    form of CDN, with varying levels of fan-out to a point where an edge
    server is connected on the last mile to clients.  The Transport-Info
    header SHOULD only be inserted into an HTTP stream by the last hop
    edge server that is connected to clients so that it conveys
-   information pertinent to the client's direct transport path.  Also
-   the Transport-Info MUST not be cached.
+   information pertinent to the client's direct transport path.  The
+   Transport-Info header MUST not be cached.
 
-4.  Client side proxy considerations
+   With respect to use in CORS [cors] enabled environments access to the
+   header will be subject to restrictions in cross domain requests,
+   which may be controlled through the inclusion of the Transport-Info
+   header in the Access-Control-Request-Headers header.
 
-   In the case where a proxy services client requests, this proxy would
-   be configured according to local policy as to whether it passes
-   through, modifies or drops the Transport-Info header.  This decision
-   can depend on a number of factors, including the utility of the
-   header given local network configuration, and also whether the header
-   might reveal unwanted information to end clients, since the
-   Transport-Info header would relate to the connection between the edge
-   CDN node and the proxy.
+   The use of the header is expected to comply with data minimisation
+   approaches where servers only send the necessary information on
+   relevant flows.
+
+   _RFC Editor: please remove this section before publication_
+
+   The provision of the Transport-Info header is possible using a number
+   of existing server systems that already provide support for such
+   metrics, which currently utilise operating system support for the
+   "tcp_info" data structure which is available on Linux and BSD based
+   systems.
+
+   In terms of current implementations there is in-built support in
+   Nginx/Openresty using its variables "var.tcpinfo_rtt" etc.  Apache
+   Traffic Server provides support using the TCPInfo plugin.  Varnish
+   provides access to "tcp_info" using their "vmod_tcp" module.  Node.js
+   has libraries such as "nodejs_tcpinfo" which provide support.  Whilst
+   most of the implementations do not provide access to the TCP MSS it
+   is available via the underlying kernel "tcp_info" data structure so
+   it would be fairly straightforward to provide access to such
+   information.
+
+4.  Client based behaviour
+
+   The use of the header by a client is envisaged as a less common use-
+   case since such information is generally less readily available on
+   clients, and its general use might have privacy implications,
+   although servers will be aware of most transport state already.  We
+   propose that use of the header could be controlled through the use of
+
+
+
+O'Hanlon & Gruessing    Expires September 4, 2020               [Page 7]
+
+Internet-Draft            Transport-Info Header               March 2020
+
+
+   the Allow-CH header [I-D.ietf-httpbis-client-hints].  The header can
+   enable the server to make better informed decisions based upon client
+   based transport information.  In the case of non-browser clients
+   which have access to transport information directly through operating
+   system interfaces, this information can be relayed using the header.
+   Whilst with browser based clients such information could be obtained
+   through the Network Information API to obtain to provide to a server.
+
+4.1.  Client side proxy considerations
+
+   In the case where a client is configured to utilise a proxy directly,
+   or through the use of the HTTP CONNECT pseudo-method, this proxy
+   would be configured according to local policy as to whether it passes
+   through, modifies, or drops the Transport-Info header.  This decision
+   can depend on a number of factors, including whether the flows are
+   encrypted, the utility of the header given local network
+   configuration, and also whether the header might reveal unwanted
+   information to end clients, since the Transport-Info header would
+   relate to the connection between the edge CDN node and the proxy.
 
 5.  IANA Considerations
 
    This specification registers the following entry in the Permanent
    Message Header Field Names registry established by [RFC3864]:
 
-   o Header field name: Transport-Info
-
-   o Applicable protocol: http
-
-   o Status: standard
-
-   o Author/Change Controller: IETF
-
-   o Specification document(s): [this document]
-
-   o Related information:
-
-
-
-
-
-
-
-O'Hanlon & Gruessing      Expires May 21, 2020                  [Page 6]
-
-Internet-Draft            Transport-Info Header            November 2019
-
+   o  Header field name: Transport-Info
+   o  Applicable protocol: http
+   o  Status: standard
+   o  Author/Change Controller: IETF
+   o  Specification document(s): [this document]
+   o  Related information:
 
 6.  Security Considerations
 
-   The content of the Transport-Info is largely available through other
-   techniques such as packet capture so it should not lead to security
-   issues.  Certain metrics, such as the cwnd, may be considered as less
-   visible but since they are part of the transport layer they can
-   inferred.  Any metrics that may be considered private should not be
-   sent in the header, or sent only over an encrypted connection.  The
-   header could also be used as a means of performing fingerprinting
-   clients ([I-D.ietf-httpbis-semantics]) by inferring correlation of
-   the metrics.
+6.1.  Privacy Considerations
 
-   In the case where clients are connected via a proxy then
-   organisations may wish modify or drop the header if they consider the
-   it might reveal unwanted information to end clients.
+   The Transport-Info header provides information about a senders view
+   on its network bandwidth and latency to its receiver, which is
+   usually the first hop between a user agent and an edge server.  This
+   information may potentially be abused for such purposes as
+   fingerprinting a user based on particular network metrics or a time
+   series thereof.  In some situations it might also be possible to
+   infer location of users.  This may also apply in the case where
+   multiple users, or user identities, share a connection through the
+   use of connection reuse mechanisms or otherwise.
+
+   However, these issues are not new and such information is already
+   being shared by some servers and clients to arbitrary levels of
+
+
+
+O'Hanlon & Gruessing    Expires September 4, 2020               [Page 8]
+
+Internet-Draft            Transport-Info Header               March 2020
+
+
+   accuracy.  Furthermore, there are a number of other ways an attacker
+   can obtain such information.  In the client side, on browser, there
+   exist a number JavaScript based techniques to measure the bandwidth
+   and latency through existing network APIs such as the Network
+   Information, the Resource Timing, and WebRTC.  On the server side, or
+   a non-browser client, there is no limit to the techniques that may be
+   applied to obtain information about network flows.
+
+6.2.  Information control
+
+   Whilst such information may be available through other mechanisms we
+   recommend that implementers minimise any potential privacy issues
+   through the application of the following approaches: - The principle
+   of data minimisation should be applied to any use of the header such
+   that only information required for the purposes of the application be
+   shared.  - That any fields deemed sensitive should be apply an
+   appropriate level of quantisation and noise to the values to degree
+   that provides privacy whilst allowing for actual utility of the
+   values.  - Any metrics that may be considered private should not be
+   sent in the header, or should appropriately protected.  - Metrics
+   should be sent only over an encrypted connection.
 
    If the header is delivered over a transport protocol whose content
    can be modified without detection then parties should be aware that
@@ -363,15 +481,34 @@ Internet-Draft            Transport-Info Header            November 2019
 
 7.1.  Normative References
 
+   [I-D.ietf-httpbis-client-hints]
+              Grigorik, I. and Y. Weiss, "HTTP Client Hints", draft-
+              ietf-httpbis-client-hints-10 (work in progress), February
+              2020.
+
    [I-D.ietf-httpbis-header-structure]
               Nottingham, M. and P. Kamp, "Structured Headers for HTTP",
-              draft-ietf-httpbis-header-structure-14 (work in progress),
-              October 2019.
+              draft-ietf-httpbis-header-structure-15 (work in progress),
+              January 2020.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
               DOI 10.17487/RFC2119, March 1997,
               <https://www.rfc-editor.org/info/rfc2119>.
+
+
+
+
+
+
+O'Hanlon & Gruessing    Expires September 4, 2020               [Page 9]
+
+Internet-Draft            Transport-Info Header               March 2020
+
+
+   [RFC3339]  Klyne, G. and C. Newman, "Date and Time on the Internet:
+              Timestamps", RFC 3339, DOI 10.17487/RFC3339, July 2002,
+              <https://www.rfc-editor.org/info/rfc3339>.
 
    [RFC3864]  Klyne, G., Nottingham, M., and J. Mogul, "Registration
               Procedures for Message Header Fields", BCP 90, RFC 3864,
@@ -387,13 +524,6 @@ Internet-Draft            Transport-Info Header            November 2019
               DOI 10.17487/RFC6298, June 2011,
               <https://www.rfc-editor.org/info/rfc6298>.
 
-
-
-O'Hanlon & Gruessing      Expires May 21, 2020                  [Page 7]
-
-Internet-Draft            Transport-Info Header            November 2019
-
-
    [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/info/rfc8174>.
@@ -405,30 +535,32 @@ Internet-Draft            Transport-Info Header            November 2019
               ID", IANA , n.d., <http://www.iana.org/assignments/
               tls-extensiontype-values>.
 
+   [cors]     van Kesteren, A., "Cross-Origin Resource Sharing", W3C ,
+              January 2014,
+              <http://www.w3.org/TR/2014/REC-cors-20140116/>.
+
    [exploring-mtu]
               Custura, A., Fairhurst, G., and I. Learmonth, "Exploring
               usable Path MTU in the Internet", Network Traffic
               Measurement and Analysis Conference , April 2018,
               <https://doi.org/10.23919/TMA.2018.8506538>.
 
-   [I-D.ietf-httpbis-semantics]
-              Fielding, R., Nottingham, M., and J. Reschke, "HTTP
-              Semantics", draft-ietf-httpbis-semantics-05 (work in
-              progress), July 2019.
-
-   [I-D.ietf-quic-recovery]
-              Iyengar, J. and I. Swett, "QUIC Loss Detection and
-              Congestion Control", draft-ietf-quic-recovery-23 (work in
-              progress), September 2019.
-
    [I-D.ietf-quic-transport]
               Iyengar, J. and M. Thomson, "QUIC: A UDP-Based Multiplexed
-              and Secure Transport", draft-ietf-quic-transport-23 (work
-              in progress), September 2019.
+              and Secure Transport", draft-ietf-quic-transport-27 (work
+              in progress), February 2020.
 
    [network-info-api]
               Grigorik, I., "Network Information API", W3C , September
               2019, <http://wicg.github.io/netinfo/>.
+
+
+
+
+O'Hanlon & Gruessing    Expires September 4, 2020              [Page 10]
+
+Internet-Draft            Transport-Info Header               March 2020
+
 
    [RFC4898]  Mathis, M., Heffner, J., and R. Raghunarayan, "TCP
               Extended Statistics MIB", RFC 4898, DOI 10.17487/RFC4898,
@@ -439,21 +571,15 @@ Internet-Draft            Transport-Info Header            November 2019
               DOI 10.17487/RFC5234, January 2008,
               <https://www.rfc-editor.org/info/rfc5234>.
 
-   [RFC6691]  Borman, D., "TCP Options and Maximum Segment Size (MSS)",
-              RFC 6691, DOI 10.17487/RFC6691, July 2012,
-              <https://www.rfc-editor.org/info/rfc6691>.
-
-
-
-O'Hanlon & Gruessing      Expires May 21, 2020                  [Page 8]
-
-Internet-Draft            Transport-Info Header            November 2019
-
-
    [RFC7230]  Fielding, R., Ed. and J. Reschke, Ed., "Hypertext Transfer
               Protocol (HTTP/1.1): Message Syntax and Routing",
               RFC 7230, DOI 10.17487/RFC7230, June 2014,
               <https://www.rfc-editor.org/info/rfc7230>.
+
+   [RFC7540]  Belshe, M., Peon, R., and M. Thomson, Ed., "Hypertext
+              Transfer Protocol Version 2 (HTTP/2)", RFC 7540,
+              DOI 10.17487/RFC7540, May 2015,
+              <https://www.rfc-editor.org/info/rfc7540>.
 
 7.3.  URIs
 
@@ -461,8 +587,36 @@ Internet-Draft            Transport-Info Header            November 2019
 
 Appendix A.  Acknowledgements
 
-   The authors would like to thank Craig Taylor for feedback throughout
-   the development of this document.
+   The authors would like to thank Craig Taylor, Lucas Pardue, Patrick
+   McManus, and the IETF HTTP Working Group for feedback on the
+   development of this document.
+
+Appendix B.  Changes
+
+B.1.  Since -00
+
+   o  Issue 1 (HTTP Tunnels): Added text regarding the use of HTTP
+      CONNECT.
+   o  Issue 3 (Is sub-second resolution appropriate?): Changed from UNIC
+      Epoch to RFC3339 time format.
+   o  Issue 4 (Could this be used for both request and response?):
+      Updated text to describe both server and client use, and their
+      implications.
+   o  Issue 5 (Privacy Implications): Added new Privacy Considerations
+      section and updated security section
+   o  Issue 9 (CORS considerations): Added text to address CORS usage.
+   o  Issue 10 (Provide additional use-cases): Updated motivation and
+      added use-cases section.
+
+
+
+
+
+
+O'Hanlon & Gruessing    Expires September 4, 2020              [Page 11]
+
+Internet-Draft            Transport-Info Header               March 2020
+
 
 Authors' Addresses
 
@@ -501,4 +655,18 @@ Authors' Addresses
 
 
 
-O'Hanlon & Gruessing      Expires May 21, 2020                  [Page 9]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+O'Hanlon & Gruessing    Expires September 4, 2020              [Page 12]
