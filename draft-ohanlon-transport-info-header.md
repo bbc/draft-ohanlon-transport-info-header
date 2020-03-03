@@ -188,11 +188,11 @@ Transport-Info = "edge-1.example.com"; ts="2019-08-30T14:56:08Z";
                   cwnd=23; rtt=55; mss=1452; rttvar=12; dstport=8065
 ~~~
 
-If the end points support HTTP/2, and later, another technique to increase temporal coverage for an ongoing session is for the client to issue additional HEAD requests for the resource at the same origin. This works with HTTP/2, and later, as all requests to the same origin usually utilise one TCP or QUIC connection. Whilst the HTTP priorities can affect the allocation of capacity between streams the header will still provide an estimate of the maximum available capacity. Likewise, in some cases with HTTP/2, and later, there may be multiple flows traversing the same transport connection to different origins if connection reuse (Section 9.1.1 of {{RFC7540}}) is utilised, which could have a similar effect to HTTP priorities, but may have privacy implications which are addressed in the privacy section.
+If the end points support HTTP/2, and later, another technique to increase temporal coverage for an ongoing session is for the client to issue additional HEAD requests for the resource at the same origin. This works with HTTP/2, and later, as all requests to the same origin usually utilise one TCP or QUIC connection. Whilst the HTTP priorities can affect the allocation of capacity between streams the header will still provide an estimate of the maximum available capacity. Likewise, in some cases with HTTP/2, and later, there may be multiple flows traversing the same transport connection to different origins if connection reuse (Section 9.1.1 of {{RFC7540}}) is utilised, which could have a similar effect on interpretation of the metrics to HTTP priorities, but may have privacy implications which are addressed in the privacy section {{sec-privacy}}.
 
 ## Utilisation of Transport-Info header metrics
 
-The metrics may be used directly to inform processes on that parse the header. The calculation of the send rate maybe performed by the sender of the header and included in the send_rate parameter, or the receiver may calculate it as described below. The decision may depend upon a variety of factors including the privacy of transporting any required parameters.
+The metrics may be used directly to inform entities that receive the header. The calculation of the send rate maybe performed by the sender of the header and included in the send_rate parameter, or the receiver may calculate it as described below. The decision may depend upon a variety of factors including the privacy consideration of transporting any required parameters.
 
 In the case of TCP, calculation of the transport transmission rate is possible using the cwnd and rtt, and knowledge of the mss. The equation being as follows:
 
@@ -201,13 +201,13 @@ In the case of TCP, calculation of the transport transmission rate is possible u
         Where send_window = min (cwnd * mss, rcv_space)
 
 
-If the mss is not available then it is possible to perform the calculation using an estimate of the mss, or a common value such as 1460 for IPv4. It understood there can be some variation for different network and tunnelled paths (e.g. 1452 for IPv4 PPPoE) as can been seen in recent studies {{exploring-mtu}}, although the large proportion of mss values fall within a range 1220-1460. The send_window is preferably calculated using a minimum of the cwnd and rcv_space, but if the rcv_space is not available it may be approximated by just using the cwnd.
+If the mss is not available then it is possible to perform the calculation using an estimate of the mss, or a common value such as 1460 for IPv4. It is understood there can be some variation for different network and tunnelled paths (e.g. 1452 for IPv4 PPPoE) as can been seen in recent studies {{exploring-mtu}}, although the large proportion of mss values fall within a range 1220-1460. The send_window is preferably calculated using a minimum of the cwnd and rcv_space, but if the rcv_space is not available it may be approximated by just using the cwnd.
 
 This equation maybe applied for other related window based transport protocols (e.g. QUIC {{I-D.ietf-quic-transport}}) with similar information, although it may need some modification.
 
 # Server based behaviour
 
-With most web server deployments an origin server sits behind some form of CDN, with varying levels of fan-out to a point where an edge server is connected on the last mile to clients. The Transport-Info header SHOULD only be inserted into an HTTP stream by the last hop edge server that is connected to clients so that it conveys information pertinent to the client's direct transport path. The Transport-Info header MUST not be cached.
+With most web server deployments an origin server sits behind some form of CDN, with varying levels of fan-out to a point where an edge server is connected on the last hop to clients. The Transport-Info header SHOULD only be inserted into an HTTP stream by the last hop edge server that is connected to clients so that it conveys information pertinent to the client's direct transport path. The Transport-Info header MUST not be cached.
 
 With respect to use in CORS {{cors}} enabled environments access to the header will be subject to restrictions in cross domain requests, which may be controlled through the inclusion of the Transport-Info header in the Access-Control-Request-Headers header.
 
@@ -222,11 +222,11 @@ In terms of current implementations there is in-built support in Nginx/Openresty
 
 # Client based behaviour
 
-The use of the header by a client is envisaged as a less common use-case since such information is generally less readily available on clients, and its general use might have privacy implications, although servers will be aware of most transport state already. We propose that use of the header could be controlled through the use of the Allow-CH header {{!I-D.ietf-httpbis-client-hints}}. The header can enable the server to make better informed decisions based upon client based transport information. In the case of non-browser clients which have access to  transport information directly through operating system interfaces, this information can be relayed using the header. Whilst with browser based clients such information could be obtained through the Network Information API to obtain to provide to a server.
+The use of the header by a client is envisaged as a less common use-case since such information is generally less readily available on clients, and its general use might have privacy implications, although servers will be aware of most transport state already. We propose that use of the header could be controlled through the use of the Allow-CH header {{!I-D.ietf-httpbis-client-hints}}. The header can enable the server to make better informed decisions based upon client based transport information. In the case of non-browser clients which have access to transport information directly through operating system interfaces, this information can be relayed using the header. Whilst with browser based clients such information could be obtained through the use of the JavaScript Network Information API.
 
 ## Client side proxy considerations
 
-In the case where a client is configured to utilise a proxy directly, or through the use of the HTTP CONNECT pseudo-method, this proxy would be configured according to local policy as to whether it passes through, modifies, or drops the Transport-Info header. This decision can depend on a number of factors, including whether the flows are encrypted, the utility of the header given local network configuration, and also whether the header might reveal unwanted information to end clients, since the Transport-Info header would relate to the connection between the edge CDN node and the proxy.
+In the case where a client is configured to utilise a proxy directly, or through the use of the HTTP CONNECT pseudo-method, this proxy should be configured according to local policy as to whether it passes through, modifies, or drops the Transport-Info header. This decision can depend on a number of factors, including whether the flows are encrypted, the utility of the header given local network configuration, and also whether the header might reveal unwanted information to end clients, since the Transport-Info header would relate to the connection between the edge CDN node and the proxy.
 
 # IANA Considerations
 
@@ -247,19 +247,20 @@ This specification registers the following entry in the Permanent Message Header
 
 # Security Considerations
 
-## Privacy Considerations
+## Privacy Considerations {#sec-privacy}
 
-The Transport-Info header provides information about a senders view on its network bandwidth and latency to its receiver, which is usually the first hop between a user agent and an edge server. This information may potentially be abused for such purposes as fingerprinting a user based on particular network metrics or a time series thereof. In some situations it might also be possible to infer location of users. This may also apply in the case where multiple users, or user identities, share a connection through the use of connection reuse mechanisms or otherwise.
+The Transport-Info header provides information about a senders view of its network transport metrics, such as bandwidth and latency, to its receiver. This information may potentially be abused for such purposes as fingerprinting a user through their particular network metrics or a time series thereof. In some situations it might also be possible to infer location of users. This may also apply in the case where multiple users, or user identities, share a connection through the use of connection reuse mechanisms or otherwise.
 
-However, these issues are not new and such information is already being shared by some servers and clients to arbitrary levels of accuracy. Furthermore, there are a number of other ways an attacker can obtain such information. In the client side, on browser, there exist a number JavaScript based techniques to measure the bandwidth and latency through existing network APIs such as the Network Information, the Resource Timing, and WebRTC. On the server side, or a non-browser client, there is no limit to the techniques that may be applied to obtain information about network flows.
+However, these issues are not new and such information is already being shared by some servers and clients to arbitrary levels of accuracy. Furthermore, there are a number of other ways an attacker can obtain such information. In the client side, in a browser, there exist a number JavaScript based techniques to measure the bandwidth and latency through existing network APIs such as the Network Information, the Resource Timing, and WebRTC. On the server side, or a non-browser client, there is no limit to the techniques that may be applied to obtain information about network flows.
 
 ## Information control
 
 Whilst such information may be available through other mechanisms we recommend that implementers minimise any potential privacy issues through the application of the following approaches:
 - The principle of data minimisation should be applied to any use of the header such that only information required for the purposes of the application be shared. 
-- That any fields deemed sensitive should be apply an appropriate level of quantisation and noise to the values to degree that provides privacy whilst allowing for actual utility of the values.
-- Any metrics that may be considered private should not be sent in the header, or should appropriately protected.
-- Metrics should be sent only over an encrypted connection.
+- Any metrics deemed sensitive should apply an appropriate level of quantisation and noise to the values to a level that provides privacy whilst allowing for actual utility of the values.
+- Consideration of limits to the temporal update frequency of the metric values.
+- Any metrics that may be considered private should not be sent in the header, or should be appropriately protected.
+- Metrics should be sent over an encrypted connection.
 
 If the header is delivered over a transport protocol whose content can be modified without detection then parties should be aware that the header could be maliciously modified to alter the metrics values which could result in the client making incorrect adaptations.
 
