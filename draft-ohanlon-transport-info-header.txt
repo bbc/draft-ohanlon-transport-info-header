@@ -461,16 +461,19 @@ Internet-Draft            Transport-Info Header               March 2020
 
    Whilst such information may be available through other mechanisms we
    recommend that implementers minimise any potential privacy issues
-   through the application of the following approaches: - The principle
-   of data minimisation should be applied to any use of the header such
-   that only information required for the purposes of the application be
-   shared.  - Any metrics deemed sensitive should apply an appropriate
-   level of quantisation and noise to the values to a level that
-   provides privacy whilst allowing for actual utility of the values.  -
-   Consideration of limits to the temporal update frequency of the
-   metric values.  - Any metrics that may be considered private should
-   not be sent in the header, or should be appropriately protected.  -
-   Metrics should be sent over an encrypted connection.
+   through the application of the following approaches:
+
+   o  The principle of data minimisation should be applied to any use of
+      the header such that only information required for the purposes of
+      the application be shared.
+   o  Any metrics deemed sensitive should apply an appropriate level of
+      quantisation and noise to the values to a level that provides
+      privacy whilst allowing for actual utility of the values.
+   o  Consideration of limits to the temporal update frequency of the
+      metric values.
+   o  Any metrics that may be considered private should not be sent in
+      the header, or should be appropriately protected.
+   o  Metrics should be sent over an encrypted connection.
 
    If the header is delivered over a transport protocol whose content
    can be modified without detection then parties should be aware that
@@ -495,9 +498,6 @@ Internet-Draft            Transport-Info Header               March 2020
               Requirement Levels", BCP 14, RFC 2119,
               DOI 10.17487/RFC2119, March 1997,
               <https://www.rfc-editor.org/info/rfc2119>.
-
-
-
 
 
 
