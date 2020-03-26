@@ -5,7 +5,7 @@
 HTTP                                                         P. O'Hanlon
 Internet-Draft                                              J. Gruessing
 Intended status: Standards Track        British Broadcasting Corporation
-Expires: September 4, 2020                                 March 3, 2020
+Expires: September 27, 2020                               March 26, 2020
 
 
                      The Transport-Info HTTP Header
@@ -41,7 +41,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on September 4, 2020.
+   This Internet-Draft will expire on September 27, 2020.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-O'Hanlon & Gruessing    Expires September 4, 2020               [Page 1]
+O'Hanlon & Gruessing   Expires September 27, 2020               [Page 1]
 
 Internet-Draft            Transport-Info Header               March 2020
 
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-O'Hanlon & Gruessing    Expires September 4, 2020               [Page 2]
+O'Hanlon & Gruessing   Expires September 27, 2020               [Page 2]
 
 Internet-Draft            Transport-Info Header               March 2020
 
@@ -165,7 +165,7 @@ Internet-Draft            Transport-Info Header               March 2020
 
 
 
-O'Hanlon & Gruessing    Expires September 4, 2020               [Page 3]
+O'Hanlon & Gruessing   Expires September 27, 2020               [Page 3]
 
 Internet-Draft            Transport-Info Header               March 2020
 
@@ -221,7 +221,7 @@ Internet-Draft            Transport-Info Header               March 2020
 
 
 
-O'Hanlon & Gruessing    Expires September 4, 2020               [Page 4]
+O'Hanlon & Gruessing   Expires September 27, 2020               [Page 4]
 
 Internet-Draft            Transport-Info Header               March 2020
 
@@ -277,7 +277,7 @@ Internet-Draft            Transport-Info Header               March 2020
 
 
 
-O'Hanlon & Gruessing    Expires September 4, 2020               [Page 5]
+O'Hanlon & Gruessing   Expires September 27, 2020               [Page 5]
 
 Internet-Draft            Transport-Info Header               March 2020
 
@@ -333,7 +333,7 @@ Internet-Draft            Transport-Info Header               March 2020
 
 
 
-O'Hanlon & Gruessing    Expires September 4, 2020               [Page 6]
+O'Hanlon & Gruessing   Expires September 27, 2020               [Page 6]
 
 Internet-Draft            Transport-Info Header               March 2020
 
@@ -373,7 +373,7 @@ Internet-Draft            Transport-Info Header               March 2020
    Nginx/Openresty using its variables "var.tcpinfo_rtt" etc.  Apache
    Traffic Server provides support using the TCPInfo plugin.  Varnish
    provides access to "tcp_info" using their "vmod_tcp" module.  Node.js
-   has libraries such as "nodejs_tcpinfo" which provide support.  Whilst
+   has support through the use of a package such as "tcpinfo".  Whilst
    most of the implementations do not provide access to the TCP MSS it
    is available via the underlying kernel "tcp_info" data structure so
    it would be fairly straightforward to provide access to such
@@ -389,7 +389,7 @@ Internet-Draft            Transport-Info Header               March 2020
 
 
 
-O'Hanlon & Gruessing    Expires September 4, 2020               [Page 7]
+O'Hanlon & Gruessing   Expires September 27, 2020               [Page 7]
 
 Internet-Draft            Transport-Info Header               March 2020
 
@@ -445,7 +445,7 @@ Internet-Draft            Transport-Info Header               March 2020
 
 
 
-O'Hanlon & Gruessing    Expires September 4, 2020               [Page 8]
+O'Hanlon & Gruessing   Expires September 27, 2020               [Page 8]
 
 Internet-Draft            Transport-Info Header               March 2020
 
@@ -486,13 +486,13 @@ Internet-Draft            Transport-Info Header               March 2020
 
    [I-D.ietf-httpbis-client-hints]
               Grigorik, I. and Y. Weiss, "HTTP Client Hints", draft-
-              ietf-httpbis-client-hints-10 (work in progress), February
+              ietf-httpbis-client-hints-12 (work in progress), March
               2020.
 
    [I-D.ietf-httpbis-header-structure]
-              Nottingham, M. and P. Kamp, "Structured Headers for HTTP",
-              draft-ietf-httpbis-header-structure-15 (work in progress),
-              January 2020.
+              Nottingham, M. and P. Kamp, "Structured Field Values for
+              HTTP", draft-ietf-httpbis-header-structure-17 (work in
+              progress), March 2020.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -501,7 +501,7 @@ Internet-Draft            Transport-Info Header               March 2020
 
 
 
-O'Hanlon & Gruessing    Expires September 4, 2020               [Page 9]
+O'Hanlon & Gruessing   Expires September 27, 2020               [Page 9]
 
 Internet-Draft            Transport-Info Header               March 2020
 
@@ -557,7 +557,7 @@ Internet-Draft            Transport-Info Header               March 2020
 
 
 
-O'Hanlon & Gruessing    Expires September 4, 2020              [Page 10]
+O'Hanlon & Gruessing   Expires September 27, 2020              [Page 10]
 
 Internet-Draft            Transport-Info Header               March 2020
 
@@ -613,7 +613,7 @@ B.1.  Since -00
 
 
 
-O'Hanlon & Gruessing    Expires September 4, 2020              [Page 11]
+O'Hanlon & Gruessing   Expires September 27, 2020              [Page 11]
 
 Internet-Draft            Transport-Info Header               March 2020
 
@@ -669,4 +669,4 @@ Authors' Addresses
 
 
 
-O'Hanlon & Gruessing    Expires September 4, 2020              [Page 12]
+O'Hanlon & Gruessing   Expires September 27, 2020              [Page 12]
