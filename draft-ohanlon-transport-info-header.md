@@ -218,7 +218,7 @@ The use of the header is expected to comply with data minimisation approaches wh
 
 The provision of the Transport-Info header is possible using a number of existing server systems that already provide support for such metrics, which currently utilise operating system support for the `tcp_info` data structure which is available on Linux and BSD based systems.
 
-In terms of current implementations there is in-built support in Nginx/Openresty using its variables `var.tcpinfo_rtt` etc. Apache Traffic Server provides support using the TCPInfo plugin. Varnish provides access to `tcp_info` using their `vmod_tcp` module. Node.js has libraries such as `nodejs_tcpinfo` which provide support. Whilst most of the implementations do not provide access to the TCP MSS it is available via the underlying kernel `tcp_info` data structure so it would be fairly straightforward to provide access to such information.
+In terms of current implementations there is in-built support in Nginx/Openresty using its variables `var.tcpinfo_rtt` etc. Apache Traffic Server provides support using the TCPInfo plugin. Varnish provides access to `tcp_info` using their `vmod_tcp` module. Node.js has support through the use of a package such as `tcpinfo`. Whilst most of the implementations do not provide access to the TCP MSS it is available via the underlying kernel `tcp_info` data structure so it would be fairly straightforward to provide access to such information.
 
 # Client based behaviour
 
