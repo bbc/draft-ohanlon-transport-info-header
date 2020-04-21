@@ -5,7 +5,7 @@
 HTTP                                                         P. O'Hanlon
 Internet-Draft                                              J. Gruessing
 Intended status: Standards Track        British Broadcasting Corporation
-Expires: September 27, 2020                               March 26, 2020
+Expires: October 23, 2020                                 April 21, 2020
 
 
                      The Transport-Info HTTP Header
@@ -41,7 +41,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on September 27, 2020.
+   This Internet-Draft will expire on October 23, 2020.
 
 Copyright Notice
 
@@ -53,9 +53,9 @@ Copyright Notice
 
 
 
-O'Hanlon & Gruessing   Expires September 27, 2020               [Page 1]
+O'Hanlon & Gruessing    Expires October 23, 2020                [Page 1]
 
-Internet-Draft            Transport-Info Header               March 2020
+Internet-Draft            Transport-Info Header               April 2020
 
 
    (https://trustee.ietf.org/license-info) in effect on the date of
@@ -109,9 +109,9 @@ Table of Contents
 
 
 
-O'Hanlon & Gruessing   Expires September 27, 2020               [Page 2]
+O'Hanlon & Gruessing    Expires October 23, 2020                [Page 2]
 
-Internet-Draft            Transport-Info Header               March 2020
+Internet-Draft            Transport-Info Header               April 2020
 
 
    The information can also be utilised by a client to provide for
@@ -165,9 +165,9 @@ Internet-Draft            Transport-Info Header               March 2020
 
 
 
-O'Hanlon & Gruessing   Expires September 27, 2020               [Page 3]
+O'Hanlon & Gruessing    Expires October 23, 2020                [Page 3]
 
-Internet-Draft            Transport-Info Header               March 2020
+Internet-Draft            Transport-Info Header               April 2020
 
 
 1.2.  Use Cases
@@ -221,9 +221,9 @@ Internet-Draft            Transport-Info Header               March 2020
 
 
 
-O'Hanlon & Gruessing   Expires September 27, 2020               [Page 4]
+O'Hanlon & Gruessing    Expires October 23, 2020                [Page 4]
 
-Internet-Draft            Transport-Info Header               March 2020
+Internet-Draft            Transport-Info Header               April 2020
 
 
    Each member of the list can also have a number of parameters that
@@ -277,9 +277,9 @@ Internet-Draft            Transport-Info Header               March 2020
 
 
 
-O'Hanlon & Gruessing   Expires September 27, 2020               [Page 5]
+O'Hanlon & Gruessing    Expires October 23, 2020                [Page 5]
 
-Internet-Draft            Transport-Info Header               March 2020
+Internet-Draft            Transport-Info Header               April 2020
 
 
    Transport-Info = "edge-1.example.com"; ts="2019-08-30T14:56:08Z";
@@ -333,9 +333,9 @@ Internet-Draft            Transport-Info Header               March 2020
 
 
 
-O'Hanlon & Gruessing   Expires September 27, 2020               [Page 6]
+O'Hanlon & Gruessing    Expires October 23, 2020                [Page 6]
 
-Internet-Draft            Transport-Info Header               March 2020
+Internet-Draft            Transport-Info Header               April 2020
 
 
    This equation maybe applied for other related window based transport
@@ -389,9 +389,9 @@ Internet-Draft            Transport-Info Header               March 2020
 
 
 
-O'Hanlon & Gruessing   Expires September 27, 2020               [Page 7]
+O'Hanlon & Gruessing    Expires October 23, 2020                [Page 7]
 
-Internet-Draft            Transport-Info Header               March 2020
+Internet-Draft            Transport-Info Header               April 2020
 
 
    the Allow-CH header [I-D.ietf-httpbis-client-hints].  The header can
@@ -445,9 +445,9 @@ Internet-Draft            Transport-Info Header               March 2020
 
 
 
-O'Hanlon & Gruessing   Expires September 27, 2020               [Page 8]
+O'Hanlon & Gruessing    Expires October 23, 2020                [Page 8]
 
-Internet-Draft            Transport-Info Header               March 2020
+Internet-Draft            Transport-Info Header               April 2020
 
 
    can obtain such information.  In the client side, in a browser, there
@@ -491,8 +491,8 @@ Internet-Draft            Transport-Info Header               March 2020
 
    [I-D.ietf-httpbis-header-structure]
               Nottingham, M. and P. Kamp, "Structured Field Values for
-              HTTP", draft-ietf-httpbis-header-structure-17 (work in
-              progress), March 2020.
+              HTTP", draft-ietf-httpbis-header-structure-18 (work in
+              progress), April 2020.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -501,9 +501,9 @@ Internet-Draft            Transport-Info Header               March 2020
 
 
 
-O'Hanlon & Gruessing   Expires September 27, 2020               [Page 9]
+O'Hanlon & Gruessing    Expires October 23, 2020                [Page 9]
 
-Internet-Draft            Transport-Info Header               March 2020
+Internet-Draft            Transport-Info Header               April 2020
 
 
    [RFC3339]  Klyne, G. and C. Newman, "Date and Time on the Internet:
@@ -557,9 +557,9 @@ Internet-Draft            Transport-Info Header               March 2020
 
 
 
-O'Hanlon & Gruessing   Expires September 27, 2020              [Page 10]
+O'Hanlon & Gruessing    Expires October 23, 2020               [Page 10]
 
-Internet-Draft            Transport-Info Header               March 2020
+Internet-Draft            Transport-Info Header               April 2020
 
 
    [RFC4898]  Mathis, M., Heffner, J., and R. Raghunarayan, "TCP
@@ -597,7 +597,7 @@ B.1.  Since -00
 
    o  Issue 1 (HTTP Tunnels): Added text regarding the use of HTTP
       CONNECT.
-   o  Issue 3 (Is sub-second resolution appropriate?): Changed from UNIC
+   o  Issue 3 (Is sub-second resolution appropriate?): Changed from UNIX
       Epoch to RFC3339 time format.
    o  Issue 4 (Could this be used for both request and response?):
       Updated text to describe both server and client use, and their
@@ -613,9 +613,9 @@ B.1.  Since -00
 
 
 
-O'Hanlon & Gruessing   Expires September 27, 2020              [Page 11]
+O'Hanlon & Gruessing    Expires October 23, 2020               [Page 11]
 
-Internet-Draft            Transport-Info Header               March 2020
+Internet-Draft            Transport-Info Header               April 2020
 
 
 Authors' Addresses
@@ -669,4 +669,4 @@ Authors' Addresses
 
 
 
-O'Hanlon & Gruessing   Expires September 27, 2020              [Page 12]
+O'Hanlon & Gruessing    Expires October 23, 2020               [Page 12]
