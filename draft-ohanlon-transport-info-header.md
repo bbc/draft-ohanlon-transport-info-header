@@ -275,7 +275,7 @@ The authors would like to thank Craig Taylor, Lucas Pardue, Patrick McManus, and
 
 ## Since -00
 * Issue 1 (HTTP Tunnels): Added text regarding the use of HTTP CONNECT.
-* Issue 3 (Is sub-second resolution appropriate?): Changed from UNIC Epoch to RFC3339 time format.
+* Issue 3 (Is sub-second resolution appropriate?): Changed from UNIX Epoch to RFC3339 time format.
 * Issue 4 (Could this be used for both request and response?): Updated text to describe both server and client use, and their implications.
 * Issue 5 (Privacy Implications): Added new Privacy Considerations section and updated security section
 * Issue 9 (CORS considerations): Added text to address CORS usage.
