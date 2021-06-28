@@ -133,40 +133,40 @@ This document uses the Augmented Backus-Naur Form (ABNF) notation of {{RFC5234}}
 
 # The Transport-Info HTTP Header
 
-The Transport-Info header uses the proposed Structured Header draft {{!I-D.ietf-httpbis-header-structure}}
+The Transport-Info header uses the Structured Header Values for HTTP {{!RFC8941}}
 
 ~~~ abnf
-        Transport-Info = sh-list
+        Transport-Info = sf-list
 ~~~
 
 Each member of the parameterised list represents an entry that contains a set of metrics reported.
 
-The list members identify either the server or client that inserted the value, and MUST have a type of either sh-string or sh-token. Depending on the deployment, this might be a product or service name (e.g., ExampleEdge or "Example CDN"), a hostname ("edge-1.example.com"), and IP address, or a generated string.
+The list members identify either the server or client that inserted the value, and MUST have a type of either sf-string or sf-token. Depending on the deployment, this might be a product or service name (e.g., ExampleEdge or "Example CDN"), a hostname ("edge-1.example.com"), and IP address, or a generated string.
 
 Each member of the list can also have a number of parameters that contain metrics. While all but one of these parameters are OPTIONAL, implementations are encouraged to only provide as much information as necessary.
 
 * Exactly one parameter whose name is "ts", and whose value is an
-  sh-string indicating the measurement timestamp in {{!RFC3339}} format.
+  sf-string indicating the measurement timestamp in {{!RFC3339}} format.
 * Optionally one parameter whose name is "alpn", and whose value is an
-  sh-string representing the ALPN protocol identifier {{alpn-ids}}.
-* Optionally one parameter whose name is "cc_algo", and whose value is sh-string,
+  sf-string representing the ALPN protocol identifier {{alpn-ids}}.
+* Optionally one parameter whose name is "cc_algo", and whose value is sf-string,
   conveying the name of congestion control algorithm used for this connection.
 * Optionally one parameter whose name is "cwnd", and whose value is a
-  sh-integer, conveying the size of the congestion window {{!RFC5681}} in packets.
+  sf-integer, conveying the size of the congestion window {{!RFC5681}} in packets.
 * Optionally one parameter whose name is "rcv_space", and whose value is a
-  sh-integer, conveying the size of the receiver's window in bytes.
+  sf-integer, conveying the size of the receiver's window in bytes.
 * Optionally one parameter whose name is "dstport", and whose value is a
-  sh-integer, conveying the destination port of this connection for correlation
+  sf-integer, conveying the destination port of this connection for correlation
   of measurements between requests.
 * Optionally one parameter whose name is "mss", and whose value is a
-  sh-integer, conveying the size of the Maximum Segment Size in bytes.
+  sf-integer, conveying the size of the Maximum Segment Size in bytes.
 * Optionally one parameter whose name is "rtt", and whose value is an
-  sh-float, in milliseconds, indicating the estimate of the Round-Trip
+  sf-float, in milliseconds, indicating the estimate of the Round-Trip
   Time from its transport layer.
 * Optionally one parameter whose name is "rttvar", and whose value is an
-  sh-float, in milliseconds, indicating the estimate of the variation
+  sf-float, in milliseconds, indicating the estimate of the variation
   of the Round-Trip Time {{!RFC6298}} from its transport layer.
-* Optionally one parameter whose name is "send_rate", and whose value is a sh-float,
+* Optionally one parameter whose name is "send_rate", and whose value is a sf-float,
   in kilobits per second, conveying the calculation of the sending rate for this connection.
 
 
