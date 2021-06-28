@@ -5,7 +5,7 @@
 HTTP                                                         P. O'Hanlon
 Internet-Draft                                              J. Gruessing
 Intended status: Standards Track        British Broadcasting Corporation
-Expires: October 23, 2020                                 April 21, 2020
+Expires: 30 December 2021                                   28 June 2021
 
 
                      The Transport-Info HTTP Header
@@ -24,7 +24,8 @@ Note to Readers
    _RFC Editor: please remove this section before publication_
 
    Source code and issues for this draft can be found at
-   https://github.com/bbc/draft-ohanlon-transport-info-header [1].
+   https://github.com/bbc/draft-ohanlon-transport-info-header
+   (https://github.com/bbc/draft-ohanlon-transport-info-header).
 
 Status of This Memo
 
@@ -41,30 +42,30 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on October 23, 2020.
+   This Internet-Draft will expire on 30 December 2021.
 
 Copyright Notice
 
-   Copyright (c) 2020 IETF Trust and the persons identified as the
+   Copyright (c) 2021 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
-   This document is subject to BCP 78 and the IETF Trust's Legal
-   Provisions Relating to IETF Documents
 
 
 
-O'Hanlon & Gruessing    Expires October 23, 2020                [Page 1]
+
+O'Hanlon & Gruessing    Expires 30 December 2021                [Page 1]
 
-Internet-Draft            Transport-Info Header               April 2020
+Internet-Draft            Transport-Info Header                June 2021
 
 
-   (https://trustee.ietf.org/license-info) in effect on the date of
-   publication of this document.  Please review these documents
-   carefully, as they describe your rights and restrictions with respect
-   to this document.  Code Components extracted from this document must
-   include Simplified BSD License text as described in Section 4.e of
-   the Trust Legal Provisions and are provided without warranty as
-   described in the Simplified BSD License.
+   This document is subject to BCP 78 and the IETF Trust's Legal
+   Provisions Relating to IETF Documents (https://trustee.ietf.org/
+   license-info) in effect on the date of publication of this document.
+   Please review these documents carefully, as they describe your rights
+   and restrictions with respect to this document.  Code Components
+   extracted from this document must include Simplified BSD License text
+   as described in Section 4.e of the Trust Legal Provisions and are
+   provided without warranty as described in the Simplified BSD License.
 
 Table of Contents
 
@@ -75,16 +76,15 @@ Table of Contents
    2.  The Transport-Info HTTP Header  . . . . . . . . . . . . . . .   4
      2.1.  Utilisation of Transport-Info header metrics  . . . . . .   6
    3.  Server based behaviour  . . . . . . . . . . . . . . . . . . .   7
-   4.  Client based behaviour  . . . . . . . . . . . . . . . . . . .   7
+   4.  Client based behaviour  . . . . . . . . . . . . . . . . . . .   8
      4.1.  Client side proxy considerations  . . . . . . . . . . . .   8
    5.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   8
    6.  Security Considerations . . . . . . . . . . . . . . . . . . .   8
-     6.1.  Privacy Considerations  . . . . . . . . . . . . . . . . .   8
+     6.1.  Privacy Considerations  . . . . . . . . . . . . . . . . .   9
      6.2.  Information control . . . . . . . . . . . . . . . . . . .   9
    7.  References  . . . . . . . . . . . . . . . . . . . . . . . . .   9
      7.1.  Normative References  . . . . . . . . . . . . . . . . . .   9
      7.2.  Informative References  . . . . . . . . . . . . . . . . .  10
-     7.3.  URIs  . . . . . . . . . . . . . . . . . . . . . . . . . .  11
    Appendix A.  Acknowledgements . . . . . . . . . . . . . . . . . .  11
    Appendix B.  Changes  . . . . . . . . . . . . . . . . . . . . . .  11
      B.1.  Since -00 . . . . . . . . . . . . . . . . . . . . . . . .  11
@@ -109,9 +109,9 @@ Table of Contents
 
 
 
-O'Hanlon & Gruessing    Expires October 23, 2020                [Page 2]
+O'Hanlon & Gruessing    Expires 30 December 2021                [Page 2]
 
-Internet-Draft            Transport-Info Header               April 2020
+Internet-Draft            Transport-Info Header                June 2021
 
 
    The information can also be utilised by a client to provide for
@@ -165,9 +165,9 @@ Internet-Draft            Transport-Info Header               April 2020
 
 
 
-O'Hanlon & Gruessing    Expires October 23, 2020                [Page 3]
+O'Hanlon & Gruessing    Expires 30 December 2021                [Page 3]
 
-Internet-Draft            Transport-Info Header               April 2020
+Internet-Draft            Transport-Info Header                June 2021
 
 
 1.2.  Use Cases
@@ -175,20 +175,19 @@ Internet-Draft            Transport-Info Header               April 2020
    The header can be used to provide sender specific transport
    information that can inform a range of functions:
 
-   o  Assist or drive the media quality selection algorithms for
+   *  Assist or drive the media quality selection algorithms for
       streaming media.
-   o  Inform initial rate selection.
-   o  Provide better bandwidth information for shorter requests (e.g.
+   *  Inform initial rate selection.
+   *  Provide better bandwidth information for shorter requests (e.g.
       gRPC, audio) which are harder to measure.
-
-      *  Could be used to drive scheduling of different flows in systems
-         such as Traefik.
-   o  The RTT values are useful for informing the operation of latency
-      sensitive applications.
-   o  The RTTVAR could be used to provide an estimate of 'reliability'
+      -  Could be used to drive scheduling of different flows in systems
+         such as Traefik. 
+   *  The RTT values are useful for informing the operation of latency
+      sensitive applications. 
+   *  The RTTVAR could be used to provide an estimate of 'reliability'
       of rtt and bandwidth estimates.
-   o  Inform client/browser media/data caching strategies.
-   o  Use by intermediate nodes for traffic analytics and control.
+   *  Inform client/browser media/data caching strategies.
+   *  Use by intermediate nodes for traffic analytics and control.
 
 1.3.  Notational Conventions
 
@@ -205,25 +204,26 @@ Internet-Draft            Transport-Info Header               April 2020
 
 2.  The Transport-Info HTTP Header
 
-   The Transport-Info header uses the proposed Structured Header draft
-   [I-D.ietf-httpbis-header-structure]
+   The Transport-Info header uses the Structured Header Values for HTTP
+   [RFC8941]
 
-           Transport-Info = sh-list
+           Transport-Info = sf-list
 
    Each member of the parameterised list represents an entry that
    contains a set of metrics reported.
 
    The list members identify either the server or client that inserted
-   the value, and MUST have a type of either sh-string or sh-token.
+   the value, and MUST have a type of either sf-string or sf-token.
    Depending on the deployment, this might be a product or service name
    (e.g., ExampleEdge or "Example CDN"), a hostname ("edge-
    1.example.com"), and IP address, or a generated string.
 
 
 
-O'Hanlon & Gruessing    Expires October 23, 2020                [Page 4]
+
+O'Hanlon & Gruessing    Expires 30 December 2021                [Page 4]
 
-Internet-Draft            Transport-Info Header               April 2020
+Internet-Draft            Transport-Info Header                June 2021
 
 
    Each member of the list can also have a number of parameters that
@@ -231,35 +231,35 @@ Internet-Draft            Transport-Info Header               April 2020
    implementations are encouraged to only provide as much information as
    necessary.
 
-   o  Exactly one parameter whose name is "ts", and whose value is an
-      sh-string indicating the measurement timestamp in [RFC3339]
+   *  Exactly one parameter whose name is "ts", and whose value is an
+      sf-string indicating the measurement timestamp in [RFC3339]
       format.
-   o  Optionally one parameter whose name is "alpn", and whose value is
-      an sh-string representing the ALPN protocol identifier [alpn-ids].
-   o  Optionally one parameter whose name is "cc_algo", and whose value
-      is sh-string, conveying the name of congestion control algorithm
+   *  Optionally one parameter whose name is "alpn", and whose value is
+      an sf-string representing the ALPN protocol identifier [alpn-ids].
+   *  Optionally one parameter whose name is "cc_algo", and whose value
+      is sf-string, conveying the name of congestion control algorithm
       used for this connection.
-   o  Optionally one parameter whose name is "cwnd", and whose value is
-      a sh-integer, conveying the size of the congestion window
+   *  Optionally one parameter whose name is "cwnd", and whose value is
+      a sf-integer, conveying the size of the congestion window
       [RFC5681] in packets.
-   o  Optionally one parameter whose name is "rcv_space", and whose
-      value is a sh-integer, conveying the size of the receiver's window
+   *  Optionally one parameter whose name is "rcv_space", and whose
+      value is a sf-integer, conveying the size of the receiver's window
       in bytes.
-   o  Optionally one parameter whose name is "dstport", and whose value
-      is a sh-integer, conveying the destination port of this connection
+   *  Optionally one parameter whose name is "dstport", and whose value
+      is a sf-integer, conveying the destination port of this connection
       for correlation of measurements between requests.
-   o  Optionally one parameter whose name is "mss", and whose value is a
-      sh-integer, conveying the size of the Maximum Segment Size in
+   *  Optionally one parameter whose name is "mss", and whose value is a
+      sf-integer, conveying the size of the Maximum Segment Size in
       bytes.
-   o  Optionally one parameter whose name is "rtt", and whose value is
-      an sh-float, in milliseconds, indicating the estimate of the
+   *  Optionally one parameter whose name is "rtt", and whose value is
+      an sf-float, in milliseconds, indicating the estimate of the
       Round-Trip Time from its transport layer.
-   o  Optionally one parameter whose name is "rttvar", and whose value
-      is an sh-float, in milliseconds, indicating the estimate of the
+   *  Optionally one parameter whose name is "rttvar", and whose value
+      is an sf-float, in milliseconds, indicating the estimate of the
       variation of the Round-Trip Time [RFC6298] from its transport
       layer.
-   o  Optionally one parameter whose name is "send_rate", and whose
-      value is a sh-float, in kilobits per second, conveying the
+   *  Optionally one parameter whose name is "send_rate", and whose
+      value is a sf-float, in kilobits per second, conveying the
       calculation of the sending rate for this connection.
 
    Here is an example of a header with a single set of metrics:
@@ -277,9 +277,9 @@ Internet-Draft            Transport-Info Header               April 2020
 
 
 
-O'Hanlon & Gruessing    Expires October 23, 2020                [Page 5]
+O'Hanlon & Gruessing    Expires 30 December 2021                [Page 5]
 
-Internet-Draft            Transport-Info Header               April 2020
+Internet-Draft            Transport-Info Header                June 2021
 
 
    Transport-Info = "edge-1.example.com"; ts="2019-08-30T14:56:08Z";
@@ -333,9 +333,9 @@ Internet-Draft            Transport-Info Header               April 2020
 
 
 
-O'Hanlon & Gruessing    Expires October 23, 2020                [Page 6]
+O'Hanlon & Gruessing    Expires 30 December 2021                [Page 6]
 
-Internet-Draft            Transport-Info Header               April 2020
+Internet-Draft            Transport-Info Header                June 2021
 
 
    This equation maybe applied for other related window based transport
@@ -379,6 +379,21 @@ Internet-Draft            Transport-Info Header               April 2020
    it would be fairly straightforward to provide access to such
    information.
 
+
+
+
+
+
+
+
+
+
+
+O'Hanlon & Gruessing    Expires 30 December 2021                [Page 7]
+
+Internet-Draft            Transport-Info Header                June 2021
+
+
 4.  Client based behaviour
 
    The use of the header by a client is envisaged as a less common use-
@@ -386,14 +401,6 @@ Internet-Draft            Transport-Info Header               April 2020
    clients, and its general use might have privacy implications,
    although servers will be aware of most transport state already.  We
    propose that use of the header could be controlled through the use of
-
-
-
-O'Hanlon & Gruessing    Expires October 23, 2020                [Page 7]
-
-Internet-Draft            Transport-Info Header               April 2020
-
-
    the Allow-CH header [I-D.ietf-httpbis-client-hints].  The header can
    enable the server to make better informed decisions based upon client
    based transport information.  In the case of non-browser clients
@@ -419,14 +426,29 @@ Internet-Draft            Transport-Info Header               April 2020
    This specification registers the following entry in the Permanent
    Message Header Field Names registry established by [RFC3864]:
 
-   o  Header field name: Transport-Info
-   o  Applicable protocol: http
-   o  Status: standard
-   o  Author/Change Controller: IETF
-   o  Specification document(s): [this document]
-   o  Related information:
+   *  Header field name: Transport-Info
+   *  Applicable protocol: http
+   *  Status: standard
+   *  Author/Change Controller: IETF
+   *  Specification document(s): [this document]
+   *  Related information:
 
 6.  Security Considerations
+
+
+
+
+
+
+
+
+
+
+
+O'Hanlon & Gruessing    Expires 30 December 2021                [Page 8]
+
+Internet-Draft            Transport-Info Header                June 2021
+
 
 6.1.  Privacy Considerations
 
@@ -442,14 +464,6 @@ Internet-Draft            Transport-Info Header               April 2020
    However, these issues are not new and such information is already
    being shared by some servers and clients to arbitrary levels of
    accuracy.  Furthermore, there are a number of other ways an attacker
-
-
-
-O'Hanlon & Gruessing    Expires October 23, 2020                [Page 8]
-
-Internet-Draft            Transport-Info Header               April 2020
-
-
    can obtain such information.  In the client side, in a browser, there
    exist a number JavaScript based techniques to measure the bandwidth
    and latency through existing network APIs such as the Network
@@ -463,17 +477,17 @@ Internet-Draft            Transport-Info Header               April 2020
    recommend that implementers minimise any potential privacy issues
    through the application of the following approaches:
 
-   o  The principle of data minimisation should be applied to any use of
+   *  The principle of data minimisation should be applied to any use of
       the header such that only information required for the purposes of
       the application be shared.
-   o  Any metrics deemed sensitive should apply an appropriate level of
+   *  Any metrics deemed sensitive should apply an appropriate level of
       quantisation and noise to the values to a level that provides
       privacy whilst allowing for actual utility of the values.
-   o  Consideration of limits to the temporal update frequency of the
+   *  Consideration of limits to the temporal update frequency of the
       metric values.
-   o  Any metrics that may be considered private should not be sent in
+   *  Any metrics that may be considered private should not be sent in
       the header, or should be appropriately protected.
-   o  Metrics should be sent over an encrypted connection.
+   *  Metrics should be sent over an encrypted connection.
 
    If the header is delivered over a transport protocol whose content
    can be modified without detection then parties should be aware that
@@ -484,27 +498,24 @@ Internet-Draft            Transport-Info Header               April 2020
 
 7.1.  Normative References
 
-   [I-D.ietf-httpbis-client-hints]
-              Grigorik, I. and Y. Weiss, "HTTP Client Hints", draft-
-              ietf-httpbis-client-hints-12 (work in progress), March
-              2020.
 
-   [I-D.ietf-httpbis-header-structure]
-              Nottingham, M. and P. Kamp, "Structured Field Values for
-              HTTP", draft-ietf-httpbis-header-structure-18 (work in
-              progress), April 2020.
+
+
+O'Hanlon & Gruessing    Expires 30 December 2021                [Page 9]
+
+Internet-Draft            Transport-Info Header                June 2021
+
+
+   [I-D.ietf-httpbis-client-hints]
+              Grigorik, I. and Y. Weiss, "HTTP Client Hints", Work in
+              Progress, Internet-Draft, draft-ietf-httpbis-client-hints-
+              15, 3 July 2020, <https://www.ietf.org/archive/id/draft-
+              ietf-httpbis-client-hints-15.txt>.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
               DOI 10.17487/RFC2119, March 1997,
               <https://www.rfc-editor.org/info/rfc2119>.
-
-
-
-O'Hanlon & Gruessing    Expires October 23, 2020                [Page 9]
-
-Internet-Draft            Transport-Info Header               April 2020
-
 
    [RFC3339]  Klyne, G. and C. Newman, "Date and Time on the Internet:
               Timestamps", RFC 3339, DOI 10.17487/RFC3339, July 2002,
@@ -528,16 +539,28 @@ Internet-Draft            Transport-Info Header               April 2020
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/info/rfc8174>.
 
+   [RFC8941]  Nottingham, M. and P-H. Kamp, "Structured Field Values for
+              HTTP", RFC 8941, DOI 10.17487/RFC8941, February 2021,
+              <https://www.rfc-editor.org/info/rfc8941>.
+
 7.2.  Informative References
 
-   [alpn-ids]
-              "Application-Layer Protocol Negotiation (ALPN) Protocol
-              ID", IANA , n.d., <http://www.iana.org/assignments/
-              tls-extensiontype-values>.
+   [alpn-ids] "Application-Layer Protocol Negotiation (ALPN) Protocol
+              ID", IANA , n.d., <http://www.iana.org/assignments/tls-
+              extensiontype-values>.
 
    [cors]     van Kesteren, A., "Cross-Origin Resource Sharing", W3C ,
               January 2014,
               <http://www.w3.org/TR/2014/REC-cors-20140116/>.
+
+
+
+
+
+O'Hanlon & Gruessing    Expires 30 December 2021               [Page 10]
+
+Internet-Draft            Transport-Info Header                June 2021
+
 
    [exploring-mtu]
               Custura, A., Fairhurst, G., and I. Learmonth, "Exploring
@@ -547,20 +570,14 @@ Internet-Draft            Transport-Info Header               April 2020
 
    [I-D.ietf-quic-transport]
               Iyengar, J. and M. Thomson, "QUIC: A UDP-Based Multiplexed
-              and Secure Transport", draft-ietf-quic-transport-27 (work
-              in progress), February 2020.
+              and Secure Transport", Work in Progress, Internet-Draft,
+              draft-ietf-quic-transport-34, 14 January 2021,
+              <https://www.ietf.org/archive/id/draft-ietf-quic-
+              transport-34.txt>.
 
    [network-info-api]
               Grigorik, I., "Network Information API", W3C , September
               2019, <http://wicg.github.io/netinfo/>.
-
-
-
-
-O'Hanlon & Gruessing    Expires October 23, 2020               [Page 10]
-
-Internet-Draft            Transport-Info Header               April 2020
-
 
    [RFC4898]  Mathis, M., Heffner, J., and R. Raghunarayan, "TCP
               Extended Statistics MIB", RFC 4898, DOI 10.17487/RFC4898,
@@ -581,10 +598,6 @@ Internet-Draft            Transport-Info Header               April 2020
               DOI 10.17487/RFC7540, May 2015,
               <https://www.rfc-editor.org/info/rfc7540>.
 
-7.3.  URIs
-
-   [1] https://github.com/bbc/draft-ohanlon-transport-info-header
-
 Appendix A.  Acknowledgements
 
    The authors would like to thank Craig Taylor, Lucas Pardue, Patrick
@@ -595,28 +608,26 @@ Appendix B.  Changes
 
 B.1.  Since -00
 
-   o  Issue 1 (HTTP Tunnels): Added text regarding the use of HTTP
+   *  Issue 1 (HTTP Tunnels): Added text regarding the use of HTTP
       CONNECT.
-   o  Issue 3 (Is sub-second resolution appropriate?): Changed from UNIX
+
+
+
+O'Hanlon & Gruessing    Expires 30 December 2021               [Page 11]
+
+Internet-Draft            Transport-Info Header                June 2021
+
+
+   *  Issue 3 (Is sub-second resolution appropriate?): Changed from UNIX
       Epoch to RFC3339 time format.
-   o  Issue 4 (Could this be used for both request and response?):
+   *  Issue 4 (Could this be used for both request and response?):
       Updated text to describe both server and client use, and their
       implications.
-   o  Issue 5 (Privacy Implications): Added new Privacy Considerations
+   *  Issue 5 (Privacy Implications): Added new Privacy Considerations
       section and updated security section
-   o  Issue 9 (CORS considerations): Added text to address CORS usage.
-   o  Issue 10 (Provide additional use-cases): Updated motivation and
+   *  Issue 9 (CORS considerations): Added text to address CORS usage.
+   *  Issue 10 (Provide additional use-cases): Updated motivation and
       added use-cases section.
-
-
-
-
-
-
-O'Hanlon & Gruessing    Expires October 23, 2020               [Page 11]
-
-Internet-Draft            Transport-Info Header               April 2020
-
 
 Authors' Addresses
 
@@ -658,15 +669,4 @@ Authors' Addresses
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-O'Hanlon & Gruessing    Expires October 23, 2020               [Page 12]
+O'Hanlon & Gruessing    Expires 30 December 2021               [Page 12]
